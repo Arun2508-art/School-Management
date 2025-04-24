@@ -3,9 +3,11 @@ import { ReactNode } from 'react';
 
 const Paper = ({
   title,
+  more,
   children
 }: {
   title?: string;
+  more?: boolean;
   children: ReactNode;
 }) => {
   return (
@@ -13,7 +15,7 @@ const Paper = ({
       {title && (
         <div className='flex items-center justify-between gap-4'>
           <div className='text-lg font-semibold'>{title}</div>
-          <Image src='/moreDark.png' alt='' width={20} height={20} />
+          {more && <Image src='/moreDark.png' alt='' width={20} height={20} />}
         </div>
       )}
       {children}

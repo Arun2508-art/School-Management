@@ -1,4 +1,5 @@
 import FormSearch from '@/components/FormSearch';
+import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { teachersData } from '@/utills/data';
@@ -48,7 +49,7 @@ const TeacherPage = () => {
         <div>
           <div className='flex gap-5 justify-between items-center'>
             <h1 className='hidden md:block text-lg font-semibold'>
-              All Teacher
+              All Teachers
             </h1>
             <div className='flex items-center gap-4'>
               <div>
@@ -121,6 +122,7 @@ const TeacherPage = () => {
               ))}
             </Table>
           </div>
+          <Pagination count={[1, 2, 3]} />
         </div>
       </Paper>
     </div>

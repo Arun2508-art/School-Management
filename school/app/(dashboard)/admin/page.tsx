@@ -1,9 +1,10 @@
 import AttendanceChart from '@/components/AttendanceChart';
-import BigCalender from '@/components/BigCalender';
 import Card from '@/components/Card';
 import CountChart from '@/components/CountChart';
+import EventCalendar from '@/components/EventCalendar';
 import FinanceChart from '@/components/FinanceChart';
 import Paper from '@/components/Paper';
+import Announcements from '@/pages/Announcements';
 
 const AdminPage = () => {
   return (
@@ -17,7 +18,7 @@ const AdminPage = () => {
         </div>
         <div className='flex gap-4 flex-col lg:flex-row'>
           <div className='w-full lg:w-1/3 h-[450px]'>
-            <Paper title='Students'>
+            <Paper title='Students' more>
               <CountChart />
               <div className='flex justify-center gap-16'>
                 <div className='flex flex-col gap-1'>
@@ -34,7 +35,7 @@ const AdminPage = () => {
             </Paper>
           </div>
           <div className='w-full lg:w-2/3 h-[450px]'>
-            <Paper title='Attendance'>
+            <Paper title='Attendance' more>
               <AttendanceChart />
             </Paper>
           </div>
@@ -44,9 +45,8 @@ const AdminPage = () => {
         </div>
       </div>
       <div className='ml-2'>
-        <Paper>
-          <BigCalender data={[]} />
-        </Paper>
+        <EventCalendar />
+        <Announcements />
       </div>
     </div>
   );
