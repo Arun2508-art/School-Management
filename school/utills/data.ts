@@ -421,7 +421,7 @@ export const classesData = [
     supervisor: 'Iva Frank'
   },
   {
-    id: 5,
+    id: 51,
     name: '5B',
     capacity: 20,
     grade: 5,
@@ -920,38 +920,38 @@ export const calendarEvents = [
   {
     title: 'Math',
     allDay: false,
-    start: new Date(2025, 3, 23, 8, 0),
-    end: new Date(2025, 3, 23, 8, 45)
+    start: new Date(2025, 3, 25, 8, 0),
+    end: new Date(2025, 3, 25, 8, 45)
   },
   {
     title: 'English',
     allDay: false,
-    start: new Date(2025, 3, 23, 9, 0),
-    end: new Date(2025, 3, 23, 9, 45)
+    start: new Date(2025, 3, 25, 9, 0),
+    end: new Date(2025, 3, 25, 9, 45)
   },
   {
     title: 'Biology',
     allDay: false,
-    start: new Date(2025, 3, 23, 10, 0),
-    end: new Date(2025, 3, 23, 10, 45)
+    start: new Date(2025, 3, 25, 10, 0),
+    end: new Date(2025, 3, 25, 10, 45)
   },
   {
     title: 'Physics',
     allDay: false,
-    start: new Date(2025, 3, 23, 11, 0),
-    end: new Date(2025, 3, 23, 11, 45)
+    start: new Date(2025, 3, 25, 11, 0),
+    end: new Date(2025, 3, 25, 11, 45)
   },
   {
     title: 'Chemistry',
     allDay: false,
-    start: new Date(2025, 3, 23, 13, 0),
-    end: new Date(2025, 3, 23, 13, 45)
+    start: new Date(2025, 3, 25, 13, 0),
+    end: new Date(2025, 3, 25, 13, 45)
   },
   {
     title: 'History',
     allDay: false,
-    start: new Date(2025, 3, 23, 14, 0),
-    end: new Date(2025, 3, 23, 14, 45)
+    start: new Date(2025, 3, 25, 14, 0),
+    end: new Date(2025, 3, 25, 14, 45)
   },
   {
     title: 'English',

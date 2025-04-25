@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 interface CardProps {
   count?: number;
-  type: string;
+  type?: string;
 }
 
 const Card = ({ type, count = 1221 }: CardProps) => {

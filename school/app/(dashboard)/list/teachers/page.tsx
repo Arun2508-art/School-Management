@@ -3,6 +3,7 @@ import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { teachersData } from '@/utills/data';
+import { IconEye, IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -71,7 +72,7 @@ const TeacherPage = () => {
               {teachersData.map((item) => (
                 <tr
                   key={item.id}
-                  className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight'
+                  className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                 >
                   <td className='flex items-center gap-4 p-4'>
                     <Image
@@ -98,23 +99,13 @@ const TeacherPage = () => {
                   <td>
                     <div className='flex items-center gap-2'>
                       <Link href={`/list/teachers/${item.id}`}>
-                        <button className='w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky'>
-                          <Image
-                            src='/view.png'
-                            alt=''
-                            width={16}
-                            height={16}
-                          />
+                        <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
+                          <IconEye stroke={2} width={16} height={16} />
                         </button>
                       </Link>
 
-                      <button className='w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple'>
-                        <Image
-                          src='/delete.png'
-                          alt=''
-                          width={16}
-                          height={16}
-                        />
+                      <button className='w-7 h-7 flex items-center justify-center rounded-full text-red-600 hover:bg-Purple'>
+                        <IconTrash stroke={2} width={16} height={16} />
                       </button>
                     </div>
                   </td>
