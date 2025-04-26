@@ -7,18 +7,18 @@ const role = 'admin';
 const Sidebar = () => {
   return (
     <div className='mt-4 text-sm'>
-      {menuItems.map((list) => (
-        <div key={list.title} className='flex flex-col gap-3'>
-          <div className='hidden lg:block text-gray-400 font-light my-4'>
+      {menuItems.map((list, index) => (
+        <div key={index} className='flex flex-col gap-3'>
+          {/* <div className='hidden lg:block text-gray-400 font-light my-4'>
             {list.title}
-          </div>
+          </div> */}
           {list.items.map((item) => {
             if (item.visible.includes(role)) {
               return (
                 <Link
                   href={item.href}
                   key={item.label}
-                  className='flex gap-3 items-center text-gray-500 py-2 md:px-2 rounded-md hover:bg-SkyLight'
+                  className='flex gap-3 items-center text-gray-500 py-2 md:px-2 rounded-md hover:bg-Sky'
                 >
                   <div>
                     <Image

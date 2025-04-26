@@ -1,6 +1,6 @@
 export const menuItems = [
   {
-    title: 'MENU',
+    // title: 'MENU',
     items: [
       {
         icon: '/home.png',
@@ -69,28 +69,28 @@ export const menuItems = [
         visible: ['admin', 'teacher', 'student', 'parent']
       }
     ]
-  },
-  {
-    title: 'OTHER',
-    items: [
-      {
-        icon: '/profile.png',
-        label: 'Profile',
-        href: '/profile',
-        visible: ['admin', 'teacher', 'student', 'parent']
-      },
-      {
-        icon: '/setting.png',
-        label: 'Settings',
-        href: '/settings',
-        visible: ['admin', 'teacher', 'student', 'parent']
-      },
-      {
-        icon: '/logout.png',
-        label: 'Logout',
-        href: '/logout',
-        visible: ['admin', 'teacher', 'student', 'parent']
-      }
-    ]
   }
+  // {
+  //   title: 'OTHER',
+  //   items: [
+  //     {
+  //       icon: '/profile.png',
+  //       label: 'Profile',
+  //       href: '/profile',
+  //       visible: ['admin', 'teacher', 'student', 'parent']
+  //     },
+  //     {
+  //       icon: '/setting.png',
+  //       label: 'Settings',
+  //       href: '/settings',
+  //       visible: ['admin', 'teacher', 'student', 'parent']
+  //     },
+  //     {
+  //       icon: '/logout.png',
+  //       label: 'Logout',
+  //       href: '/logout',
+  //       visible: ['admin', 'teacher', 'student', 'parent']
+  //     }
+  //   ]
+  // }
 ];

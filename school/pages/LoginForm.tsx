@@ -1,6 +1,17 @@
+'use client';
+
 import Input from '@/components/Input';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { LoginAPI } from '@/store/Slices/LoginSlice';
+import { useEffect } from 'react';
 
 const LoginForm = () => {
+  const dispatch = useAppDispatch();
+  const loginDetails = useAppSelector((state) => state.login);
+  console.log(loginDetails);
+  useEffect(() => {
+    dispatch(LoginAPI('test@example.com'));
+  }, [dispatch]);
   return (
     <div>
       <div className='flex flex-col items-center gap-4 mb-4'>

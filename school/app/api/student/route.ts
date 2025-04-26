@@ -1,0 +1,28 @@
+import connectMongoDB from '@/lib/mongodb';
+import Student from '@/models/student';
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST(request: NextRequest) {
+  try {
+    const { firstName, gender, lastName, role } = await request.json();
+    await connectMongoDB();
+    await Student.create({ firstName, gender, lastName, role });
+    return NextResponse.json({ message: 'Student Added' }, { status: 201 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: 'Server Error ' }, { status: 500 });
+  }
+}
+
+export async function GET() {
+  await connectMongoDB();
+  const students = await Student.find();
+  return NextResponse.json({ students });
+}
+
+export async function DELETE(request: NextRequest) {
+  const id = request.nextUrl.searchParams.get('id');
+  await connectMongoDB();
+  await Student.findByIdAndDelete(id);
+  return NextResponse.json({ message: 'Topic deleted' }, { status: 200 });
+}
