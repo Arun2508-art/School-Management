@@ -1,3 +1,4 @@
+import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
 import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
@@ -62,9 +63,7 @@ const TeacherPage = () => {
               <div className='rounded-full bg-Yellow w-8 h-8 flex items-center justify-center'>
                 <Image src='/sort.png' alt='sort' width={16} height={16} />
               </div>
-              <div className='rounded-full bg-Yellow w-8 h-8 flex items-center justify-center'>
-                <Image src='/sort.png' alt='sort' width={16} height={16} />
-              </div>
+              <FormModal type='teacher' />
             </div>
           </div>
           <div>
