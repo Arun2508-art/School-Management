@@ -22,14 +22,14 @@ const AdminPage = () => {
               <CountChart />
               <div className='flex justify-center gap-16'>
                 <div className='flex flex-col gap-1'>
-                  <div className='w-5 h-5 bg-Sky rounded-full' />
+                  <div className='w-5 h-5 bg-red rounded-full' />
                   <h1 className='font-bold'>1000</h1>
-                  <h2 className='text-xs text-gray-300'>Boys 1000</h2>
+                  <h2 className='text-xs text-gray-500'>Boys 1000</h2>
                 </div>
                 <div className='flex flex-col gap-1'>
-                  <div className='w-5 h-5 bg-Yellow rounded-full' />
+                  <div className='w-5 h-5 bg-blue rounded-full' />
                   <h1 className='font-bold'>1000</h1>
-                  <h2 className='text-xs text-gray-300'>Girls 1221</h2>
+                  <h2 className='text-xs text-gray-500'>Girls 1221</h2>
                 </div>
               </div>
             </Paper>

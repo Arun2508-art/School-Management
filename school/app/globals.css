@@ -6,7 +6,9 @@
     --color-Purple: #CFCEFF;
     --color-PurpleLight: #F1F0FF;
     --color-Yellow: #FAE27C;
-    --color-YellowLight: #FEFCE8
+    --color-YellowLight: #FEFCE8;
+    --color-blue: #009AB4;
+    --color-red: #E63A1C
 }
 
 .react-calendar {

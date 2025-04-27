@@ -11,12 +11,12 @@ const data = [
   {
     name: 'Girls',
     count: 500,
-    fill: '#FAE27C'
+    fill: '#009ab4'
   },
   {
     name: 'Boys',
     count: 500,
-    fill: '#C3EBFA'
+    fill: '#e63a1c'
   }
 ];
 const CountChart = () => {
