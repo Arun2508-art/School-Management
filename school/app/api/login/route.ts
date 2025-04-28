@@ -1,13 +1,17 @@
+import connectMongoDB from '@/lib/mongodb';
 import Admin from '@/models/admin';
 import Parent from '@/models/parent';
 import Student from '@/models/student';
 import Teacher from '@/models/teacher';
 import { NextRequest, NextResponse } from 'next/server';
 
-export const Login = async (req: NextRequest) => {
+export const POST = async (req: NextRequest) => {
   try {
     const { email } = await req.json();
-    let admin = null;
+    await connectMongoDB();
+
+    let user = null;
+    console.log(email);
 
     const collections = [
       { model: Admin, role: 'admin' },
@@ -17,20 +21,18 @@ export const Login = async (req: NextRequest) => {
     ];
 
     for (const { model } of collections) {
-      admin = await model.findOne({ email });
-      if (admin) break;
+      user = await model.findOne({ email });
+      if (user) break;
     }
 
-    if (!admin)
+    if (!user)
       return NextResponse.json({ error: 'User not found' }, { status: 401 });
 
     return NextResponse.json({
-      admin: {
-        id: admin._id,
-        email: admin.email,
-        role: admin.role,
-        name: admin.name
-      }
+      id: user._id,
+      role: user.role,
+      firstName: user.firstName,
+      lastName: user.lastName
     });
   } catch (error) {
     console.error('Login error:', error);

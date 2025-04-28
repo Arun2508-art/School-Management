@@ -15,7 +15,7 @@ const Navbar = () => {
         </div>
         <div className='bg-white w-7 h-7 flex items-center justify-center cursor-pointer relative hover:bg-Purple rounded-md'>
           <Image src='/announcement.png' alt='' width={20} height={20} />
-          <div className='absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center rounded-full px-1 text-xs bg-purple-500 text-white'>
+          <div className='absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center rounded-full px-1 text-xs bg-red-500 text-white'>
             1
           </div>
         </div>
@@ -23,14 +23,16 @@ const Navbar = () => {
           className='cursor-pointer relative'
           onClick={() => setActiveMenu((prev) => !prev)}
         >
-          <div className='hover:bg-Purple p-2 rounded-md flex gap-2'>
+          <div className='hover:bg-Purple p-2 rounded-md flex items-center gap-2'>
             <div className='flex flex-col'>
               <div className='font-medium text-xs leading-3'>John Doe</div>
-              <div className='text-gray-500 text-[10px] text-right'>Admin</div>
+              <div className='text-gray-500 text-[10px] text-right capitalize'>
+                Admin
+              </div>
             </div>
-            <button className='bg-red-500 text-white rounded-full w-7 h-7'>
-              A
-            </button>
+            <div className='text-white rounded-full relative w-7 h-7 flex items-center justify-center'>
+              <Image src='/noAvatar.png' alt='' fill />
+            </div>
           </div>
           {activeMenu && (
             <div className='absolute bg-Purple p-2 top-full right-0 rounded-md flex flex-col gap-2 mt-2 min-w-36'>

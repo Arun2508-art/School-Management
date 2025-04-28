@@ -44,7 +44,7 @@ const EventCalendar = () => {
         {events.map((item) => (
           <div
             key={item.id}
-            className='flex flex-col gap-3 border border-gray-200 mb-4 p-2 border-t-2 odd:border-t-Sky even:border-t-Yellow'
+            className='flex flex-col gap-3 border border-gray-200 mb-4 p-2 border-t-2 odd:border-t-blue even:border-t-Yellow'
           >
             <div className='flex items-center justify-between gap-5'>
               <h1 className='font-semibold'>{item.title}</h1>

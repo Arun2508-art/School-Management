@@ -54,7 +54,7 @@ const ParentPage = () => {
               <div className='rounded-full bg-Yellow w-8 h-8 flex items-center justify-center'>
                 <Image src='/sort.png' alt='sort' width={16} height={16} />
               </div>
-              <FormModal type='parent' />
+              <FormModal type='Parent' />
             </div>
           </div>
           <div>

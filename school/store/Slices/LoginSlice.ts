@@ -1,12 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export interface LoginProps {
-  email: string;
+  user: {
+    firstName?: string;
+    lastName?: string;
+    role?: 'student' | 'teacher' | 'admin' | 'parent';
+  };
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
 }
 
 const initialState: LoginProps = {
-  email: '',
+  user: {
+    firstName: '',
+    lastName: ''
+  },
   status: 'idle'
 };
 
@@ -32,7 +39,7 @@ export const loginSlice = createSlice({
       })
       .addCase(LoginAPI.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.email = action.payload;
+        state.user = action.payload;
       })
       .addCase(LoginAPI.rejected, (state) => {
         state.status = 'failed';

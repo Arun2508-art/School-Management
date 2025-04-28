@@ -2,11 +2,11 @@
 
 @theme {
     --color-Sky: #C3EBFA;
-    --color-SkyLight: #EDF9FD;
-    --color-Purple: #CFCEFF;
-    --color-PurpleLight: #F1F0FF;
+    --color-SkyLight: #c2e9f6;
+    --color-Purple: #a9a7f0;
+    --color-PurpleLight: #cbc8f6;
     --color-Yellow: #FAE27C;
-    --color-YellowLight: #FEFCE8;
+    --color-YellowLight: #f4f0c4;
     --color-blue: #009AB4;
     --color-red: #E63A1C
 }
@@ -22,8 +22,14 @@
 }
 
 .react-calendar__tile--active {
-    background-color: #c3ebfa !important;
-    color: black !important;
+    background-color: var(--color-blue) !important;
+    color: white !important;
+    border-radius: 4px;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__navigation button:enabled:hover {
+    border-radius: 4px;
 }
 
 .react-calendar abbr:where([title]) {
