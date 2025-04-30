@@ -3,7 +3,7 @@ import CountChart from '@/components/CountChart';
 import FinanceChart from '@/components/FinanceChart';
 import Paper from '@/components/Paper';
 import PaperCard from '@/components/PaperCard';
-import Announcements from '@/pages/Announcements';
+import Announcements from '@/components/pages/Announcements';
 import Image from 'next/image';
 
 const page = () => {

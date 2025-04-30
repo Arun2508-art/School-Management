@@ -1,10 +1,10 @@
 'use client';
 
-import FormParent from '@/pages/FormParent';
-import FormStandard from '@/pages/FormStandard';
-import FormStudent from '@/pages/FormStudent';
-import FormSubject from '@/pages/FormSubject';
-import FormTeacher from '@/pages/FormTeacher';
+import FormParent from '@/components/pages/FormParent';
+import FormStandard from '@/components/pages/FormStandard';
+import FormStudent from '@/components/pages/FormStudent';
+import FormSubject from '@/components/pages/FormSubject';
+import FormTeacher from '@/components/pages/FormTeacher';
 import { IconPlus, IconX } from '@tabler/icons-react';
 import { useState } from 'react';
 

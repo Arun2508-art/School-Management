@@ -4,7 +4,7 @@ import CountChart from '@/components/CountChart';
 import EventCalendar from '@/components/EventCalendar';
 import FinanceChart from '@/components/FinanceChart';
 import Paper from '@/components/Paper';
-import Announcements from '@/pages/Announcements';
+import Announcements from '@/components/pages/Announcements';
 
 const AdminPage = () => {
   return (
