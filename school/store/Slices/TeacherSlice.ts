@@ -26,7 +26,7 @@ const initialState: TeachersState = {
 export const createTeacher = createAsyncThunk(
   'api/add/teacher',
   async (value: TeachersProps) => {
-    const response = await fetch('http://localhost:3000/api/teacher', {
+    const response = await fetch('https://school-management-peach-chi.vercel.app/api/teacher', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(value)
@@ -39,7 +39,7 @@ export const createTeacher = createAsyncThunk(
 export const deleteTeacher = createAsyncThunk(
   'api/delete/teacher',
   async (id: string) => {
-    const response = await fetch(`http://localhost:3000/api/teacher?id=${id}`, {
+    const response = await fetch(`https://school-management-peach-chi.vercel.app/api/teacher?id=${id}`, {
       method: 'DELETE'
     });
     const data = await response.json();
@@ -61,7 +61,7 @@ export const updateTeacher = createAsyncThunk(
 );
 
 export const fetchTeacher = createAsyncThunk('api/fecth/teacher', async () => {
-  const response = await fetch('http://localhost:3000/api/teacher', {
+  const response = await fetch('https://school-management-peach-chi.vercel.app/api/teacher', {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   });
