@@ -2,6 +2,20 @@ import connectMongoDB from '@/lib/mongodb';
 import Teacher from '@/models/teacher';
 import { NextRequest, NextResponse } from 'next/server';
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*', // Replace with your domain in production
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Max-Age': '86400'
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders
+  });
+}
+
 export const POST = async (request: NextRequest) => {
   try {
     const value = await request.json();
@@ -10,12 +24,8 @@ export const POST = async (request: NextRequest) => {
     return NextResponse.json(
       { newTeacher, message: 'Teacher Added Successfully', status: 201 },
       {
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type'
-        }
+        status: 201,
+        headers: corsHeaders
       }
     );
   } catch (error) {
@@ -31,11 +41,8 @@ export const GET = async () => {
       { data, message: 'Successfully fecth' },
       {
         status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type'
-        }
+
+        headers: corsHeaders
       }
     );
   } catch (error) {
@@ -55,25 +62,14 @@ export const DELETE = async (req: NextRequest) => {
     if (!deletedTeacher) {
       return NextResponse.json(
         { message: 'Teacher Not Found' },
-        { status: 404 }
+        { status: 404, headers: corsHeaders }
       );
     }
     return NextResponse.json(
       { message: 'Deleted Teacher Sucessfully', deletedTeacher },
-      { status: 200 }
+      { status: 200, headers: corsHeaders }
     );
   } catch (error) {
     console.log(error);
   }
 };
-
-export function OPTIONS() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*', // or your domain
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type'
-    }
-  });
-}
