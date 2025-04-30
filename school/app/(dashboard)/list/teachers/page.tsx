@@ -1,12 +1,17 @@
+'use client';
+
+import DeleteButton from '@/components/Button/DeleteButton';
 import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
 import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
-import { teachersData } from '@/utills/data';
-import { IconEye, IconTrash } from '@tabler/icons-react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchTeacher } from '@/store/Slices/TeacherSlice';
+import { IconEye } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const columns = [
   {
@@ -45,6 +50,13 @@ const columns = [
 ];
 
 const TeacherPage = () => {
+  const dispatch = useAppDispatch();
+  const { teachers } = useAppSelector((state) => state.teacher);
+
+  useEffect(() => {
+    dispatch(fetchTeacher());
+  }, [dispatch]);
+
   return (
     <div className='mx-4'>
       <Paper>
@@ -68,44 +80,40 @@ const TeacherPage = () => {
           </div>
           <div>
             <Table columns={columns}>
-              {teachersData.map((item) => (
+              {teachers?.map((item) => (
                 <tr
-                  key={item.id}
+                  key={item._id}
                   className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                 >
                   <td className='flex items-center gap-4 p-4'>
-                    <Image
+                    {/* <Image
                       src={item.photo}
                       alt=''
                       width={40}
                       height={40}
                       className='md:hidden xl:block w-10 h-10 rounded-full object-cover'
-                    />
+                    /> */}
                     <div className='flex flex-col'>
-                      <h3 className='font-semibold'>{item.name}</h3>
+                      <h3 className='font-semibold'>{item.firstName}</h3>
                       <p className='text-xs text-gray-500'>{item?.email}</p>
                     </div>
                   </td>
                   <td className='hidden md:table-cell'>{item.teacherId}</td>
-                  <td className='hidden md:table-cell'>
-                    {item.subjects.join(',')}
-                  </td>
-                  <td className='hidden md:table-cell'>
-                    {item.classes.join(',')}
-                  </td>
+                  <td className='hidden md:table-cell'>{item?.subjects}</td>
+                  <td className='hidden md:table-cell'>{item.classes}</td>
                   <td className='hidden md:table-cell'>{item.phone}</td>
                   <td className='hidden md:table-cell'>{item.address}</td>
                   <td>
                     <div className='flex items-center gap-2'>
-                      <Link href={`/list/teachers/${item.id}`}>
+                      <Link href={`/list/teachers/${item._id}`}>
                         <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
                           <IconEye stroke={2} width={16} height={16} />
                         </button>
                       </Link>
 
-                      <button className='w-7 h-7 flex items-center justify-center rounded-full text-red-600 hover:bg-Purple'>
-                        <IconTrash stroke={2} width={16} height={16} />
-                      </button>
+                      {item._id && (
+                        <DeleteButton id={item._id} type='teacher' />
+                      )}
                     </div>
                   </td>
                 </tr>

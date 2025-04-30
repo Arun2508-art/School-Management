@@ -6,8 +6,16 @@ export async function POST(request: NextRequest) {
   try {
     const { standard, capacity, grade, supervisor } = await request.json();
     await connectMongoDB();
-    await Class.create({ standard, capacity, grade, supervisor });
-    return NextResponse.json({ message: 'Class Added' }, { status: 201 });
+    const newStandard = await Class.create({
+      standard,
+      capacity,
+      grade,
+      supervisor
+    });
+    return NextResponse.json(
+      { message: 'Class Added', data: newStandard },
+      { status: 201 }
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: 'Server Error ' }, { status: 500 });
@@ -15,14 +23,34 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  await connectMongoDB();
-  const students = await Class.find();
-  return NextResponse.json({ students });
+  try {
+    await connectMongoDB();
+    const standard = await Class.find();
+    return NextResponse.json({ standard });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: 'Servar Error' }, { status: 500 });
+  }
 }
 
 export async function DELETE(request: NextRequest) {
-  const id = request.nextUrl.searchParams.get('id');
-  await connectMongoDB();
-  await Class.findByIdAndDelete(id);
-  return NextResponse.json({ message: 'Topic deleted' }, { status: 200 });
+  try {
+    const id = request.nextUrl.searchParams.get('id');
+    await connectMongoDB();
+    const data = await Class.findByIdAndDelete(id);
+
+    if (!data) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+    return NextResponse.json(
+      { message: 'Standard deleted', data },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: 'Standard not deleted' },
+      { status: 500 }
+    );
+  }
 }

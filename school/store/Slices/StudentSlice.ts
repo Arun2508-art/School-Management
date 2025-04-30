@@ -1,18 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export interface StudentsProps {
+  _id?: string;
   firstName: string;
   lastName?: string;
   gender: 'Male' | 'Female' | 'Other';
-  dateOfBirth?: string;
+  dateOfBirth?: Date;
   email: string;
   phone?: string;
   class: string;
   rollNumber: string;
   address?: string;
-  role: 'student';
-  isActive?: boolean;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
 }
 interface StudentsState {
   students: StudentsProps[];
@@ -24,13 +22,13 @@ const initialState: StudentsState = {
   status: 'idle'
 };
 
-export const addStudent = createAsyncThunk(
+export const createStudent = createAsyncThunk(
   'api/add/student',
   async (value: StudentsProps) => {
-    const response = await fetch('http://localhost:3000/api/login', {
+    const response = await fetch('http://localhost:3000/api/student', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ value })
+      body: JSON.stringify(value)
     });
     const data = await response.json();
     return data;
@@ -40,7 +38,7 @@ export const addStudent = createAsyncThunk(
 export const deleteStudent = createAsyncThunk(
   'api/delete/student',
   async (id: string) => {
-    const response = await fetch(`http://localhost:3000/api/student/${id}`, {
+    const response = await fetch(`http://localhost:3000/api/student?id=${id}`, {
       method: 'DELETE'
     });
     const data = await response.json();
@@ -70,7 +68,7 @@ export const fetchStudent = createAsyncThunk('api/fecth/student', async () => {
   return data;
 });
 
-export const loginSlice = createSlice({
+export const StudentSlice = createSlice({
   name: 'Login',
   initialState,
   reducers: {},
@@ -81,19 +79,19 @@ export const loginSlice = createSlice({
       })
       .addCase(fetchStudent.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.students = action.payload;
+        state.students = action.payload.students;
       })
       .addCase(fetchStudent.rejected, (state) => {
         state.status = 'failed';
       })
-      .addCase(addStudent.pending, (state) => {
+      .addCase(createStudent.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(addStudent.fulfilled, (state, action) => {
+      .addCase(createStudent.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.students = action.payload;
+        state.students.push(action.payload.newStudent);
       })
-      .addCase(addStudent.rejected, (state) => {
+      .addCase(createStudent.rejected, (state) => {
         state.status = 'failed';
       })
       .addCase(deleteStudent.pending, (state) => {
@@ -101,7 +99,9 @@ export const loginSlice = createSlice({
       })
       .addCase(deleteStudent.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.students = action.payload;
+        state.students = state.students.filter(
+          (item) => item._id !== action.payload.deletedStudent._id
+        );
       })
       .addCase(deleteStudent.rejected, (state) => {
         state.status = 'failed';
@@ -119,4 +119,4 @@ export const loginSlice = createSlice({
   }
 });
 
-export default loginSlice.reducer;
+export default StudentSlice.reducer;

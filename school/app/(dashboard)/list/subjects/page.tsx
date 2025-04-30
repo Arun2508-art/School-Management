@@ -1,11 +1,15 @@
+'use client';
+
+import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
-import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
-import { subjectsData } from '@/utills/data';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { deleteSubject, fecthSubject } from '@/store/Slices/SubjectSlice';
 import { IconEye, IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const columns = [
   {
@@ -24,6 +28,17 @@ const columns = [
 ];
 
 const SubjectPage = () => {
+  const { subject, status } = useAppSelector((state) => state.subject);
+  const dispatch = useAppDispatch();
+
+  const handleDelete = (id: string) => {
+    dispatch(deleteSubject(id));
+  };
+
+  useEffect(() => {
+    dispatch(fecthSubject());
+  }, [dispatch]);
+
   return (
     <div className='mx-4'>
       <Paper>
@@ -42,42 +57,51 @@ const SubjectPage = () => {
               <div className='rounded-full bg-Yellow w-8 h-8 flex items-center justify-center'>
                 <Image src='/sort.png' alt='sort' width={16} height={16} />
               </div>
-              <div className='rounded-full bg-Yellow w-8 h-8 flex items-center justify-center'>
-                <Image src='/sort.png' alt='sort' width={16} height={16} />
-              </div>
+              <FormModal type='Subject' />
             </div>
           </div>
           <div>
-            <Table columns={columns}>
-              {subjectsData.map((item) => (
-                <tr
-                  key={item.id}
-                  className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
-                >
-                  <td className='flex items-center gap-4 p-4'>
-                    <h3 className='font-semibold'>{item.name}</h3>
-                  </td>
-                  <td className='hidden md:table-cell'>
-                    {item.teachers.join(', ')}
-                  </td>
-                  <td>
-                    <div className='flex items-center gap-2'>
-                      <Link href={`/list/teachers/${item.id}`}>
-                        <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
-                          <IconEye stroke={2} width={16} height={16} />
-                        </button>
-                      </Link>
+            {status === 'loading' ? (
+              <div className='my-7 text-blue-400'>loading...</div>
+            ) : subject.length > 0 ? (
+              <Table columns={columns}>
+                {subject?.map((item) => (
+                  <tr
+                    key={item._id}
+                    className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
+                  >
+                    <td className='flex items-center gap-4 p-4'>
+                      <h3 className='font-semibold'>{item.subject}</h3>
+                    </td>
+                    <td className='hidden md:table-cell'>{item.teacherName}</td>
+                    <td>
+                      <div className='flex items-center gap-2'>
+                        <Link href={`/list/teachers/${item._id}`}>
+                          <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
+                            <IconEye stroke={2} width={16} height={16} />
+                          </button>
+                        </Link>
 
-                      <button className='w-7 h-7 flex items-center justify-center rounded-full text-red-600 hover:bg-Purple'>
-                        <IconTrash stroke={2} width={16} height={16} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </Table>
+                        <button
+                          className='w-7 h-7 flex items-center justify-center rounded-full text-red-600 hover:bg-Purple cursor-pointer'
+                          onClick={() => {
+                            handleDelete(item._id!);
+                          }}
+                        >
+                          <IconTrash stroke={2} width={16} height={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </Table>
+            ) : (
+              <div className='h-[calc(100vh-141px)] w-full text-blue-400 text-xl leading-1 font-semibold flex items-center justify-center'>
+                Add New Subject
+              </div>
+            )}
           </div>
-          <Pagination count={[1, 2, 3]} />
+          {/* <Pagination count={[1, 2, 3]} /> */}
         </div>
       </Paper>
     </div>

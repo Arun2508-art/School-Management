@@ -1,12 +1,15 @@
+'use client';
 import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
 import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
-import { classesData } from '@/utills/data';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { deleteClass, fetchClass } from '@/store/Slices/ClassSlice';
 import { IconEye, IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const columns = [
   {
@@ -35,6 +38,17 @@ const columns = [
 ];
 
 const ClassesPage = () => {
+  const dispacth = useAppDispatch();
+  const { standard } = useAppSelector((state) => state.class);
+
+  const handleDelete = (id: string) => {
+    dispacth(deleteClass(id));
+  };
+
+  useEffect(() => {
+    dispacth(fetchClass());
+  }, [dispacth]);
+
   return (
     <div className='mx-4'>
       <Paper>
@@ -58,26 +72,31 @@ const ClassesPage = () => {
           </div>
           <div className='mt-8'>
             <Table columns={columns}>
-              {classesData.map((item) => (
+              {standard?.map((item) => (
                 <tr
-                  key={item.id}
+                  key={item._id}
                   className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                 >
                   <td className='flex items-center gap-4 p-4'>
-                    <h3 className='font-semibold'>{item.name}</h3>
+                    <h3 className='font-semibold'>{item.standard}</h3>
                   </td>
                   <td className='hidden md:table-cell'>{item.capacity}</td>
                   <td className='hidden md:table-cell'>{item.grade}</td>
                   <td className='hidden md:table-cell'>{item.supervisor}</td>
                   <td>
                     <div className='flex items-center gap-2'>
-                      <Link href={`/list/teachers/${item.id}`}>
+                      <Link href={`/list/teachers/${item._id}`}>
                         <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
                           <IconEye stroke={2} width={16} height={16} />
                         </button>
                       </Link>
 
-                      <button className='w-7 h-7 flex items-center justify-center rounded-full text-red-600 hover:bg-Purple'>
+                      <button
+                        className='w-7 h-7 flex items-center justify-center rounded-full text-red-600 hover:bg-Purple cursor-pointer'
+                        onClick={() => {
+                          handleDelete(item._id!);
+                        }}
+                      >
                         <IconTrash stroke={2} width={16} height={16} />
                       </button>
                     </div>

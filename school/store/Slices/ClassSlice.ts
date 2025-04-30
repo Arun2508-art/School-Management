@@ -1,24 +1,25 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export interface ClassProps {
+export interface StandardProps {
+  _id?: string;
   standard: string;
   capacity?: number;
   grade?: string;
   supervisor?: string;
 }
 interface StudentsState {
-  students: ClassProps[];
+  standard: StandardProps[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
 }
 
 const initialState: StudentsState = {
-  students: [],
+  standard: [],
   status: 'idle'
 };
 
 export const createClass = createAsyncThunk(
   'api/add/Class',
-  async ({ standard, capacity, grade, supervisor }: ClassProps) => {
+  async ({ standard, capacity, grade, supervisor }: StandardProps) => {
     const response = await fetch('http://localhost:3000/api/class', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -32,7 +33,7 @@ export const createClass = createAsyncThunk(
 export const deleteClass = createAsyncThunk(
   'api/delete/Class',
   async (id: string) => {
-    const response = await fetch(`http://localhost:3000/api/class/${id}`, {
+    const response = await fetch(`http://localhost:3000/api/class?id=${id}`, {
       method: 'DELETE'
     });
     const data = await response.json();
@@ -42,7 +43,7 @@ export const deleteClass = createAsyncThunk(
 
 export const updateClass = createAsyncThunk(
   'api/update/Class',
-  async (value: ClassProps) => {
+  async (value: StandardProps) => {
     const response = await fetch('http://localhost:3000/api/class', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -73,7 +74,7 @@ export const ClassSlice = createSlice({
       })
       .addCase(fetchClass.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.students = action.payload;
+        state.standard = action.payload.standard;
       })
       .addCase(fetchClass.rejected, (state) => {
         state.status = 'failed';
@@ -83,7 +84,7 @@ export const ClassSlice = createSlice({
       })
       .addCase(createClass.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.students = action.payload;
+        state.standard.push(action.payload.data);
       })
       .addCase(createClass.rejected, (state) => {
         state.status = 'failed';
@@ -93,7 +94,10 @@ export const ClassSlice = createSlice({
       })
       .addCase(deleteClass.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.students = action.payload;
+        console.log(action.payload);
+        state.standard = state.standard.filter(
+          (item) => item._id !== action.payload.data._id
+        );
       })
       .addCase(deleteClass.rejected, (state) => {
         state.status = 'failed';
@@ -103,7 +107,7 @@ export const ClassSlice = createSlice({
       })
       .addCase(updateClass.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.students = action.payload;
+        state.standard = action.payload;
       })
       .addCase(updateClass.rejected, (state) => {
         state.status = 'failed';
