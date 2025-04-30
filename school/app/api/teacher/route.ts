@@ -9,7 +9,14 @@ export const POST = async (request: NextRequest) => {
     const newTeacher = await Teacher.create(value);
     return NextResponse.json(
       { newTeacher, message: 'Teacher Added Successfully', status: 201 },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
+      }
     );
   } catch (error) {
     console.log(error);
@@ -23,7 +30,12 @@ export const GET = async () => {
     return NextResponse.json(
       { data, message: 'Successfully fecth' },
       {
-        status: 200
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
       }
     );
   } catch (error) {
@@ -54,3 +66,14 @@ export const DELETE = async (req: NextRequest) => {
     console.log(error);
   }
 };
+
+export function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*', // or your domain
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    }
+  });
+}
