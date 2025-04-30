@@ -31,7 +31,9 @@ export const createSubject = createAsyncThunk(
 
 export const fecthSubject = createAsyncThunk('api/fecth/subjects', async () => {
   try {
-    const res = await fetch('http://localhost:3000/api/subject');
+    const res = await fetch(
+      'https://school-management-js82.vercel.app/api/subject'
+    );
     const data = res.json();
     return data;
   } catch (error) {
