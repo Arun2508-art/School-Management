@@ -3,18 +3,18 @@ import Teacher from '@/models/teacher';
 import { NextRequest, NextResponse } from 'next/server';
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*', // Replace with your domain in production
+  'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Access-Control-Max-Age': '86400'
 };
 
-export async function OPTIONS() {
+export const OPTIONs = async () => {
   return new NextResponse(null, {
     status: 204,
     headers: corsHeaders
   });
-}
+};
 
 export const POST = async (request: NextRequest) => {
   try {
