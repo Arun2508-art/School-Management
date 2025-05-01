@@ -1,3 +1,4 @@
+import { baseUrl } from '@/utills/helper';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export type SubjectType = {
@@ -19,7 +20,7 @@ const initialState: SubjectProps = {
 export const createSubject = createAsyncThunk(
   'api/create/subject',
   async ({ subject, teacherName }: SubjectType) => {
-    const res = await fetch('http://localhost:3000/api/subject', {
+    const res = await fetch(`${baseUrl}/api/subject`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ subject, teacherName })
@@ -31,9 +32,7 @@ export const createSubject = createAsyncThunk(
 
 export const fecthSubject = createAsyncThunk('api/fecth/subjects', async () => {
   try {
-    const res = await fetch(
-      'https://school-management-js82.vercel.app/api/subject'
-    );
+    const res = await fetch(`${baseUrl}/api/subject`);
     const data = res.json();
     return data;
   } catch (error) {
@@ -45,7 +44,7 @@ export const deleteSubject = createAsyncThunk(
   'api/delete/subject',
   async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/subject?id=${id}`, {
+      const res = await fetch(`${baseUrl}/api/subject?id=${id}`, {
         method: 'DELETE'
       });
       return await res.json();

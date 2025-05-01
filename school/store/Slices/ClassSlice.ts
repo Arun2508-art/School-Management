@@ -1,3 +1,4 @@
+import { baseUrl } from '@/utills/helper';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export interface StandardProps {
@@ -20,7 +21,7 @@ const initialState: StudentsState = {
 export const createClass = createAsyncThunk(
   'api/add/Class',
   async ({ standard, capacity, grade, supervisor }: StandardProps) => {
-    const response = await fetch('http://localhost:3000/api/class', {
+    const response = await fetch(`${baseUrl}/api/class`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ standard, capacity, grade, supervisor })
@@ -33,7 +34,7 @@ export const createClass = createAsyncThunk(
 export const deleteClass = createAsyncThunk(
   'api/delete/Class',
   async (id: string) => {
-    const response = await fetch(`http://localhost:3000/api/class?id=${id}`, {
+    const response = await fetch(`${baseUrl}/api/class?id=${id}`, {
       method: 'DELETE'
     });
     const data = await response.json();
@@ -44,7 +45,7 @@ export const deleteClass = createAsyncThunk(
 export const updateClass = createAsyncThunk(
   'api/update/Class',
   async (value: StandardProps) => {
-    const response = await fetch('http://localhost:3000/api/class', {
+    const response = await fetch(`${baseUrl}/api/class`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ value })
@@ -55,7 +56,7 @@ export const updateClass = createAsyncThunk(
 );
 
 export const fetchClass = createAsyncThunk('api/fecth/Class', async () => {
-  const response = await fetch('http://localhost:3000/api/class', {
+  const response = await fetch(`${baseUrl}/api/class`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   });
