@@ -17,7 +17,8 @@ const LoginForm = () => {
     try {
       const formData = new FormData(e.currentTarget);
       const email = formData.get('email') as string;
-      dispatch(LoginAPI(email));
+      const password = formData.get('password') as string;
+      dispatch(LoginAPI({ email, password }));
     } catch (error) {
       console.log(error);
     }

@@ -8,6 +8,7 @@ export interface TeachersProps {
   gender: 'Male' | 'Female' | 'Other';
   dateOfBirth?: Date;
   email: string;
+  password: string;
   phone?: string;
   classes: string;
   subjects?: string;
@@ -27,6 +28,7 @@ const initialState: TeachersState = {
 export const createTeacher = createAsyncThunk(
   'api/add/teacher',
   async (value: TeachersProps) => {
+    console.log(value);
     const response = await fetch(`${baseUrl}/api/teacher`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

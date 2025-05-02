@@ -2,6 +2,7 @@
 import Input from '@/components/Input';
 import { useAppDispatch } from '@/store/hooks';
 import { createTeacher, TeachersProps } from '@/store/Slices/TeacherSlice';
+import bcrypt from 'bcryptjs';
 
 export interface FormTeacherProps {
   onSuccess: () => void;
@@ -15,6 +16,11 @@ const FormTeacher = ({ onSuccess }: FormTeacherProps) => {
     try {
       const formData = new FormData(e.currentTarget);
 
+      const password = await bcrypt.hash(
+        formData.get('password') as string,
+        10
+      );
+
       const studentData: TeachersProps = {
         firstName: formData.get('firstName') as string,
         lastName: formData.get('lastName') as string | undefined,
@@ -23,11 +29,14 @@ const FormTeacher = ({ onSuccess }: FormTeacherProps) => {
           ? new Date(formData.get('dateOfBirth')!.toString())
           : undefined,
         email: formData.get('email') as string,
+        password: password,
         phone: formData.get('phone') as string | undefined,
         classes: formData.get('class') as string,
         teacherId: formData.get('staffID') as string,
         address: formData.get('address') as string | undefined
       };
+
+      console.log(studentData);
 
       const { payload } = await dispatch(createTeacher(studentData));
       if (

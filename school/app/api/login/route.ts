@@ -3,15 +3,20 @@ import Admin from '@/models/admin';
 import Parent from '@/models/parent';
 import Student from '@/models/student';
 import Teacher from '@/models/teacher';
+import bcrypt from 'bcryptjs';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const POST = async (req: NextRequest) => {
   try {
-    const { email } = await req.json();
+    const { email, password } = await req.json();
+
+    if (!email) {
+      return NextResponse.json({ message: 'Please enter email' });
+    }
+
     await connectMongoDB();
 
     let user = null;
-    console.log(email);
 
     const collections = [
       { model: Admin, role: 'admin' },
@@ -26,7 +31,13 @@ export const POST = async (req: NextRequest) => {
     }
 
     if (!user)
-      return NextResponse.json({ error: 'User not found' }, { status: 401 });
+      return NextResponse.json({ massage: 'User not found' }, { status: 401 });
+
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (!isValidPassword) {
+      NextResponse.json({ massage: 'Password Invalid' });
+    }
 
     return NextResponse.json({
       id: user._id,

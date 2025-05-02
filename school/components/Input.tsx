@@ -20,7 +20,7 @@ const Input = ({
   value
 }: InputProps) => {
   const inputClass = classNames(
-    'ring-1 ring-blue-200 p-2 rounded-md',
+    'ring-1 ring-blue-200 p-2 rounded-md focus:outline-blue-300',
     className,
     {}
   );

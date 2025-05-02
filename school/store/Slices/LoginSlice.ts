@@ -19,15 +19,18 @@ const initialState: LoginProps = {
 };
 
 // Thunk with email passed in
-export const LoginAPI = createAsyncThunk('api/login', async (email: string) => {
-  const response = await fetch(`${baseUrl}/api/logi`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email })
-  });
-  const data = await response.json();
-  return data;
-});
+export const LoginAPI = createAsyncThunk(
+  'api/login',
+  async ({ email, password }: { email: string; password: string }) => {
+    const response = await fetch(`${baseUrl}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await response.json();
+    return data;
+  }
+);
 
 export const loginSlice = createSlice({
   name: 'Login',
