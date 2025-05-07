@@ -1,4 +1,6 @@
 'use client';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { Logout } from '@/store/Slices/AuthSlice';
 import { IconLogout, IconSettings, IconUser } from '@tabler/icons-react';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -6,6 +8,13 @@ import FormSearch from './FormSearch';
 
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(false);
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(Logout());
+  };
+
   return (
     <div className='flex items-center justify-between p-4'>
       <FormSearch />
@@ -25,9 +34,9 @@ const Navbar = () => {
         >
           <div className='hover:bg-Purple p-2 rounded-md flex items-center gap-2'>
             <div className='flex flex-col'>
-              <div className='font-medium text-xs leading-3'>John Doe</div>
+              <div className='font-medium text-xs leading-3'>{user.name}</div>
               <div className='text-gray-500 text-[10px] text-right capitalize'>
-                Admin
+                {user.role}
               </div>
             </div>
             <div className='text-white rounded-full relative w-7 h-7 flex items-center justify-center'>
@@ -44,7 +53,10 @@ const Navbar = () => {
                 <IconSettings width={16} height={16} />
                 Setting
               </div>
-              <div className='flex gap-2 text-sm py-2 px-1 hover:bg-PurpleLight rounded-md'>
+              <div
+                className='flex gap-2 text-sm py-2 px-1 hover:bg-PurpleLight rounded-md'
+                onClick={handleLogout}
+              >
                 <IconLogout width={16} height={16} />
                 Logout
               </div>

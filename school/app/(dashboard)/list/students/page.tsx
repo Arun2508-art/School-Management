@@ -2,6 +2,7 @@
 import DeleteButton from '@/components/Button/DeleteButton';
 import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
+import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
@@ -50,11 +51,15 @@ const columns = [
 
 const StudentPage = () => {
   const dispatch = useAppDispatch();
-  const { students } = useAppSelector((state) => state.student);
+  const { status, students } = useAppSelector((state) => state.student);
 
   useEffect(() => {
     dispatch(fetchStudent());
   }, [dispatch]);
+
+  if (status === 'loading') {
+    return <Loading />;
+  }
 
   return (
     <div className='mx-4'>

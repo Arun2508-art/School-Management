@@ -2,13 +2,14 @@
 
 import Input from '@/components/Input';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { LoginAPI } from '@/store/Slices/LoginSlice';
+import { LoginAPI } from '@/store/Slices/AuthSlice';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Loading from '../Loading';
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
-  const { user, status } = useAppSelector((state) => state.login);
+  const { user, status, error } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,6 +39,10 @@ const LoginForm = () => {
     }
   }, [status, user, router]);
 
+  if (status === 'succeeded') {
+    return <Loading />;
+  }
+
   return (
     <div>
       <div className='flex flex-col items-center gap-4 mb-4'>
@@ -61,6 +66,9 @@ const LoginForm = () => {
           label='Password'
           placeholder='Password'
         />
+
+        {error && <div className='text-red-600 text-sm mt-2'>{error}</div>}
+
         <button
           type='submit'
           disabled={status === 'loading'}

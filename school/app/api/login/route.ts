@@ -1,3 +1,4 @@
+import { generateToken } from '@/lib/jwt';
 import connectMongoDB from '@/lib/mongodb';
 import Admin from '@/models/admin';
 import Parent from '@/models/parent';
@@ -11,7 +12,17 @@ export const POST = async (req: NextRequest) => {
     const { email, password } = await req.json();
 
     if (!email) {
-      return NextResponse.json({ message: 'Please enter email' });
+      return NextResponse.json(
+        { message: 'Please enter email' },
+        { status: 400 }
+      );
+    }
+
+    if (!password) {
+      return NextResponse.json(
+        { message: 'Invalid password' },
+        { status: 400 }
+      );
     }
 
     await connectMongoDB();
@@ -30,21 +41,36 @@ export const POST = async (req: NextRequest) => {
       if (user) break;
     }
 
-    if (!user)
-      return NextResponse.json({ massage: 'User not found' }, { status: 401 });
+    if (!user) {
+      return NextResponse.json({ message: 'User not found' }, { status: 401 });
+    }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-      NextResponse.json({ massage: 'Password Invalid' });
+      return NextResponse.json(
+        { message: 'Password Invalid' },
+        { status: 401 }
+      );
     }
 
-    return NextResponse.json({
+    const token = await generateToken(user._id.toString(), user.role);
+
+    const res = NextResponse.json({
       id: user._id,
       role: user.role,
-      firstName: user.firstName,
-      lastName: user.lastName
+      name: user.name
     });
+
+    res.cookies.set({
+      name: 'jwt',
+      value: token,
+      httpOnly: true,
+      path: '/',
+      maxAge: 60 * 60
+    });
+
+    return res;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
