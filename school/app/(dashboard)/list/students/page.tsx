@@ -98,7 +98,7 @@ const StudentPage = () => {
                       className='md:hidden xl:block w-10 h-10 rounded-full object-cover'
                     /> */}
                     <div className='flex flex-col'>
-                      <h3 className='font-semibold'>{item.firstName}</h3>
+                      <h3 className='font-semibold'>{item.name}</h3>
                       <p className='text-xs text-gray-500'>{item?.email}</p>
                     </div>
                   </td>
