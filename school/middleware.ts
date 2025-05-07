@@ -50,7 +50,7 @@ export function middleware(request: NextRequest) {
   }
 
   const decodedToken = verifyToken(token);
-  console.log(decodedToken);
+  // console.log(decodedToken);
 
   if (!decodedToken) {
     return NextResponse.redirect(new URL('/login', request.url));
@@ -79,5 +79,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/((?!_next/static|favicon.ico|api/).*)'
+  matcher: '/((?!_next/static|_next/image|favicon.ico|api/|frambanner.jpg).*)'
 };
