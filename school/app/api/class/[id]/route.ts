@@ -6,9 +6,7 @@ export async function DELETE(request: NextRequest) {
   try {
     const id = request.nextUrl.searchParams.get('id');
     await connectMongoDB();
-    console.log(id);
     const item = await Class.findByIdAndDelete(id);
-    console.log(item);
     if (!item) {
       return NextResponse.json({ message: 'Not Found' }, { status: 404 });
     }

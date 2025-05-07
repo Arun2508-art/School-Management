@@ -1,11 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
 
 const StudentSchema = new Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String },
+  name: { type: String, required: true },
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
   dateOfBirth: { type: Date },
   email: { type: String, unique: true, lowercase: true },
+  password: { type: String },
   phone: { type: String },
   class: { type: String },
   rollNumber: { type: String, unique: true },

@@ -1,8 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 const TeacherSchema = new Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String },
+  name: { type: String, required: true },
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
   dateOfBirth: { type: Date },
   email: { type: String, unique: true, lowercase: true },

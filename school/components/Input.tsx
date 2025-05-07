@@ -8,6 +8,7 @@ interface InputProps {
   id?: string;
   className?: string;
   value?: string;
+  max?: string;
 }
 
 const Input = ({
@@ -17,7 +18,8 @@ const Input = ({
   placeholder,
   id,
   className,
-  value
+  value,
+  max
 }: InputProps) => {
   const inputClass = classNames(
     'ring-1 ring-blue-200 p-2 rounded-md focus:outline-blue-300',
@@ -38,6 +40,7 @@ const Input = ({
         id={id}
         className={inputClass}
         value={value}
+        max={max}
       />
     </div>
   );

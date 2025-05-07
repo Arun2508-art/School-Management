@@ -3,12 +3,14 @@ import Input from '@/components/Input';
 import { useAppDispatch } from '@/store/hooks';
 import { createTeacher, TeachersProps } from '@/store/Slices/TeacherSlice';
 import bcrypt from 'bcryptjs';
+import { useEffect, useState } from 'react';
 
 export interface FormTeacherProps {
   onSuccess: () => void;
 }
 
 const FormTeacher = ({ onSuccess }: FormTeacherProps) => {
+  const [toady, setToday] = useState('');
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,8 +24,7 @@ const FormTeacher = ({ onSuccess }: FormTeacherProps) => {
       );
 
       const studentData: TeachersProps = {
-        firstName: formData.get('firstName') as string,
-        lastName: formData.get('lastName') as string | undefined,
+        firstName: formData.get('name') as string,
         gender: formData.get('gender') as 'Male' | 'Female' | 'Other',
         dateOfBirth: formData.get('dateOfBirth')
           ? new Date(formData.get('dateOfBirth')!.toString())
@@ -35,8 +36,6 @@ const FormTeacher = ({ onSuccess }: FormTeacherProps) => {
         teacherId: formData.get('staffID') as string,
         address: formData.get('address') as string | undefined
       };
-
-      console.log(studentData);
 
       const { payload } = await dispatch(createTeacher(studentData));
       if (
@@ -50,16 +49,17 @@ const FormTeacher = ({ onSuccess }: FormTeacherProps) => {
     }
   };
 
+  useEffect(() => {
+    const date = new Date().toISOString().split('T')[0];
+    setToday(date);
+  }, []);
+
   return (
     <>
       <form onSubmit={handleSubmit}>
         <div className='flex gap-8 mb-4'>
-          <Input
-            placeholder='First Name...'
-            label='First Name'
-            name='firstName'
-          />
-          <Input placeholder='Last Name...' label='Last Name' name='lastName' />
+          <Input placeholder='Name...' label='Name' name='name' />
+          <Input placeholder='Teacher ID' label='Teacher ID' name='staffID' />
         </div>
         <div className='flex gap-8 mb-4'>
           <Input
@@ -77,20 +77,20 @@ const FormTeacher = ({ onSuccess }: FormTeacherProps) => {
         </div>
         <div className='flex gap-8 mb-4'>
           <Input placeholder='class' label='class' name='class' />
-          <Input placeholder='Teacher ID' label='Teacher ID' name='staffID' />
+          <Input placeholder='Gender' label='Gender' name='gender' />
         </div>
         <div className='flex gap-8 mb-4'>
-          <Input placeholder='Gender' label='Gender' name='gender' />
+          <Input placeholder='Phone No' label='Phone No' name='phone' />
+          <Input placeholder='Address' label='Address' name='address' />
+        </div>
+        <div className='flex gap-8 mb-4'>
           <Input
             placeholder='DOB'
             label='Date of Birth'
             name='dateOfBirth'
             type='date'
+            max={toady}
           />
-        </div>
-        <div className='flex gap-8 mb-4'>
-          <Input placeholder='Phone No' label='Phone No' name='phone' />
-          <Input placeholder='Address' label='Address' name='address' />
         </div>
 
         <button className='ring-1 ring-blue-600 bg-blue-600 text-white p-2 rounded-md cursor-pointer'>

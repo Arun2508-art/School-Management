@@ -3,11 +3,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export interface StudentsProps {
   _id?: string;
-  firstName: string;
-  lastName?: string;
+  name: string;
   gender: 'Male' | 'Female' | 'Other';
   dateOfBirth?: Date;
   email: string;
+  password: string;
   phone?: string;
   class: string;
   rollNumber: string;

@@ -1,19 +1,28 @@
 'use client';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch } from '@/store/hooks';
 import { Logout } from '@/store/Slices/AuthSlice';
 import { IconLogout, IconSettings, IconUser } from '@tabler/icons-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import FormSearch from './FormSearch';
 
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(false);
+  const [role, setRole] = useState('');
+  const [name, setName] = useState('');
+  const router = useRouter();
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.auth);
 
-  const handleLogout = () => {
-    dispatch(Logout());
+  const handleLogout = async () => {
+    const success = await dispatch(Logout());
+    if (Logout.fulfilled.match(success)) router.push('/login');
   };
+
+  useEffect(() => {
+    setName(localStorage.getItem('name') || '');
+    setRole(localStorage.getItem('role') || '');
+  }, []);
 
   return (
     <div className='flex items-center justify-between p-4'>
@@ -34,9 +43,9 @@ const Navbar = () => {
         >
           <div className='hover:bg-Purple p-2 rounded-md flex items-center gap-2'>
             <div className='flex flex-col'>
-              <div className='font-medium text-xs leading-3'>{user.name}</div>
+              <div className='font-medium text-xs leading-3'>{name}</div>
               <div className='text-gray-500 text-[10px] text-right capitalize'>
-                {user.role}
+                {role}
               </div>
             </div>
             <div className='text-white rounded-full relative w-7 h-7 flex items-center justify-center'>
@@ -45,11 +54,11 @@ const Navbar = () => {
           </div>
           {activeMenu && (
             <div className='absolute bg-Purple p-2 top-full right-0 rounded-md flex flex-col gap-2 mt-2 min-w-36'>
-              <div className='flex gap-2 text-sm py-2 px-1 hover:bg-PurpleLight rounded-md'>
+              <div className='flex gap-2 text-sm py-2 px-1 hover:bg-PurpleLight rounded-md cursor-not-allowed'>
                 <IconUser width={16} height={16} />
                 MyProfile
               </div>
-              <div className='flex gap-2 text-sm py-2 px-1 hover:bg-PurpleLight rounded-md'>
+              <div className='flex gap-2 text-sm py-2 px-1 hover:bg-PurpleLight rounded-md cursor-not-allowed'>
                 <IconSettings width={16} height={16} />
                 Setting
               </div>

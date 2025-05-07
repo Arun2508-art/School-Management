@@ -83,6 +83,8 @@ export const authSlice = createSlice({
         state.status = 'succeeded';
         state.user = action.payload;
         state.error = '';
+        localStorage.setItem('role', action.payload.role);
+        localStorage.setItem('name', action.payload.name);
       })
       .addCase(LoginAPI.rejected, (state, action) => {
         state.status = 'failed';
@@ -92,8 +94,10 @@ export const authSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(Logout.fulfilled, (state) => {
-        state.status = 'succeeded';
+        state.status = 'idle';
         state.user = {};
+        localStorage.removeItem('role');
+        localStorage.removeItem('name');
       })
       .addCase(Logout.rejected, (state, action) => {
         state.status = 'failed';
