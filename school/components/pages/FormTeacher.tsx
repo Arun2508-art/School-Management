@@ -24,7 +24,7 @@ const FormTeacher = ({ onSuccess }: FormTeacherProps) => {
       );
 
       const studentData: TeachersProps = {
-        firstName: formData.get('name') as string,
+        name: formData.get('name') as string,
         gender: formData.get('gender') as 'Male' | 'Female' | 'Other',
         dateOfBirth: formData.get('dateOfBirth')
           ? new Date(formData.get('dateOfBirth')!.toString())
