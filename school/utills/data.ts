@@ -920,14 +920,14 @@ export const calendarEvents = [
   {
     title: 'Math',
     allDay: false,
-    start: new Date(2025, 3, 25, 8, 0),
-    end: new Date(2025, 3, 25, 8, 45)
+    start: new Date(2025, 4, 8, 11, 30),
+    end: new Date(2025, 4, 8, 11, 45)
   },
   {
     title: 'English',
     allDay: false,
-    start: new Date(2025, 3, 25, 9, 0),
-    end: new Date(2025, 3, 25, 9, 45)
+    start: new Date(2025, 4, 8, 11, 45),
+    end: new Date(2025, 4, 8, 12, 0)
   },
   {
     title: 'Biology',

@@ -4,44 +4,65 @@ import Input from '@/components/Input';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { LoginAPI } from '@/store/Slices/AuthSlice';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import Loading from '../Loading';
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
-  const { user, status, error } = useAppSelector((state) => state.auth);
+  const { status, error } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       const formData = new FormData(e.currentTarget);
       const email = formData.get('email') as string;
       const password = formData.get('password') as string;
-      dispatch(LoginAPI({ email, password }));
+      const success = await dispatch(LoginAPI({ email, password }));
+      if (LoginAPI.fulfilled.match(success)) {
+        const user = success.payload;
+
+        switch (user.role) {
+          case 'admin':
+            router.push('/admin');
+            break;
+          case 'teacher':
+            router.push('/teacher');
+            break;
+          case 'student':
+            router.push('/student');
+            break;
+          case 'parent':
+            router.push('/parent');
+            break;
+          default:
+            console.warn('Unknown role:', user.role);
+            break;
+        }
+      } else {
+        console.error('Login failed:', success);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    if (status === 'succeeded' && user) {
-      if (user.role === 'admin') {
-        router.push('/admin');
-      } else if (user.role === 'teacher') {
-        router.push('/teacher');
-      } else if (user.role === 'student') {
-        router.push('/student');
-      } else if (user.role === 'parent') {
-        router.push('/parent');
-      }
-    }
-  }, [status, user, router]);
+  // useEffect(() => {
+  //   if (status === 'succeeded' && user?.role) {
+  //     if (user.role === 'admin') {
+  //       router.push('/admin');
+  //     } else if (user.role === 'teacher') {
+  //       router.push('/teacher');
+  //     } else if (user.role === 'student') {
+  //       router.push('/student');
+  //     } else if (user.role === 'parent') {
+  //       router.push('/parent');
+  //     }
+  //   }
+  // }, [status, user?.role, router]);
 
-  if (status === 'succeeded') {
-    return <Loading />;
-  }
+  // if (status === 'succeeded') {
+  //   return <Loading />;
+  // }
 
   return (
     <div>
@@ -72,7 +93,7 @@ const LoginForm = () => {
         <button
           type='submit'
           disabled={status === 'loading'}
-          className='bg-blue text-white rounded py-2 mt-4 cursor-pointer'
+          className='bg-blue text-white rounded py-2 mt-4 cursor-pointer disabled:cursor-default disabled:bg-gray-400'
         >
           {status === 'loading' ? 'Loging in....' : 'Login'}
         </button>
