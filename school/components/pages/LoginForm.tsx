@@ -4,16 +4,18 @@ import Input from '@/components/Input';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { LoginAPI } from '@/store/Slices/AuthSlice';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const { status, error } = useAppSelector((state) => state.auth);
+  const { error } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
+      setLoading(true);
       const formData = new FormData(e.currentTarget);
       const email = formData.get('email') as string;
       const password = formData.get('password') as string;
@@ -43,6 +45,8 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -92,10 +96,10 @@ const LoginForm = () => {
 
         <button
           type='submit'
-          disabled={status === 'loading'}
+          disabled={loading}
           className='bg-blue text-white rounded py-2 mt-4 cursor-pointer disabled:cursor-default disabled:bg-gray-400'
         >
-          {status === 'loading' ? 'Loging in....' : 'Login'}
+          {loading ? 'Loging in....' : 'Login'}
         </button>
       </form>
       <div className='my-8 text-center relative text-sm'>
