@@ -5,11 +5,12 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { LoginAPI } from '@/store/Slices/AuthSlice';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Loading from '../Loading';
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const { error } = useAppSelector((state) => state.auth);
+  const { user, error } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,9 +65,9 @@ const LoginForm = () => {
   //   }
   // }, [status, user?.role, router]);
 
-  // if (status === 'succeeded') {
-  //   return <Loading />;
-  // }
+  if (user) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -99,7 +100,7 @@ const LoginForm = () => {
           disabled={loading}
           className='bg-blue text-white rounded py-2 mt-4 cursor-pointer disabled:cursor-default disabled:bg-gray-400'
         >
-          {loading ? 'Loging in....' : 'Login'}
+          {loading ? 'Logging in....' : 'Login'}
         </button>
       </form>
       <div className='my-8 text-center relative text-sm'>

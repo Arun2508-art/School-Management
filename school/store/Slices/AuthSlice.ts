@@ -7,13 +7,13 @@ export interface LoginProps {
 }
 
 interface LoginState {
-  user: LoginProps;
+  user: LoginProps | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error?: string;
 }
 
 const initialState: LoginState = {
-  user: {},
+  user: null,
   status: 'idle',
   error: ''
 };
@@ -94,8 +94,8 @@ export const authSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(Logout.fulfilled, (state) => {
-        state.status = 'idle';
-        state.user = {};
+        state.status = 'succeeded';
+        state.user = null;
         localStorage.removeItem('role');
         localStorage.removeItem('name');
       })

@@ -1,11 +1,12 @@
 'use client';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Logout } from '@/store/Slices/AuthSlice';
 import { IconLogout, IconSettings, IconUser } from '@tabler/icons-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import FormSearch from './FormSearch';
+import Loading from './Loading';
 
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(false);
@@ -13,6 +14,7 @@ const Navbar = () => {
   const [name, setName] = useState('');
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { status } = useAppSelector((state) => state.auth);
 
   const handleLogout = async () => {
     const success = await dispatch(Logout());
@@ -23,6 +25,14 @@ const Navbar = () => {
     setName(localStorage.getItem('name') || '');
     setRole(localStorage.getItem('role') || '');
   }, []);
+
+  if (status === 'loading') {
+    return (
+      <div className='fixed inset-0 bg-black/5 cursor-not-allowed'>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className='flex items-center justify-between p-4'>
