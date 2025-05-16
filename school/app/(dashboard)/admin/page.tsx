@@ -1,3 +1,4 @@
+'use client';
 import AttendanceChart from '@/components/AttendanceChart';
 import Card from '@/components/Card';
 import CountChart from '@/components/CountChart';

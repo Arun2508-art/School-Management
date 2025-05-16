@@ -1,24 +1,22 @@
+'use client';
 import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
+import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
-import { parentsData } from '@/utills/data';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchParent } from '@/store/Slices/ParentSlice';
 import { IconEye, IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const columns = [
   {
     header: 'Info',
     accessor: 'info'
   },
-  {
-    header: 'Students',
-    accessor: 'studentId',
-    className: 'hidden md:table-cell'
-  },
-
   {
     header: 'Phone',
     accessor: 'phone',
@@ -36,6 +34,17 @@ const columns = [
 ];
 
 const ParentPage = () => {
+  const dispatch = useAppDispatch();
+  const { status, parents } = useAppSelector((state) => state.parent);
+
+  useEffect(() => {
+    dispatch(fetchParent());
+  }, [dispatch]);
+
+  if (status === 'loading') {
+    return <Loading />;
+  }
+  console.log(parents);
   return (
     <div className='mx-4'>
       <Paper>
@@ -59,9 +68,9 @@ const ParentPage = () => {
           </div>
           <div>
             <Table columns={columns}>
-              {parentsData.map((item) => (
+              {parents.map((item) => (
                 <tr
-                  key={item.id}
+                  key={item._id}
                   className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                 >
                   <td className='flex items-center gap-4 p-4'>
@@ -70,14 +79,11 @@ const ParentPage = () => {
                       <p className='text-xs text-gray-500'>{item?.email}</p>
                     </div>
                   </td>
-                  <td className='hidden md:table-cell'>
-                    {item.students.join(',')}
-                  </td>
                   <td className='hidden md:table-cell'>{item.phone}</td>
                   <td className='hidden md:table-cell'>{item.address}</td>
                   <td>
                     <div className='flex items-center gap-2'>
-                      <Link href={`/list/teachers/${item.id}`}>
+                      <Link href={`/list/teachers/${item._id}`}>
                         <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
                           <IconEye stroke={2} width={16} height={16} />
                         </button>

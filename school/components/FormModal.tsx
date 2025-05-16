@@ -45,7 +45,7 @@ const FormModal = ({ type }: FormModalProps) => {
                 {type === 'Class' && <FormStandard />}
                 {type === 'Student' && <FormStudent onSuccess={closeModal} />}
                 {type === 'Subject' && <FormSubject />}
-                {type === 'Parent' && <FormParent />}
+                {type === 'Parent' && <FormParent onSuccess={closeModal} />}
                 {type === 'Teacher' && <FormTeacher onSuccess={closeModal} />}
               </div>
             </div>

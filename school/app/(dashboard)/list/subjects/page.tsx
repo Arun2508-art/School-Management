@@ -2,6 +2,7 @@
 
 import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
+import Loading from '@/components/Loading';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -39,6 +40,10 @@ const SubjectPage = () => {
     dispatch(fecthSubject());
   }, [dispatch]);
 
+  if (status === 'loading') {
+    return <Loading />;
+  }
+
   return (
     <div className='mx-4'>
       <Paper>
@@ -61,9 +66,7 @@ const SubjectPage = () => {
             </div>
           </div>
           <div>
-            {status === 'loading' ? (
-              <div className='my-7 text-blue-400'>loading...</div>
-            ) : subject.length > 0 ? (
+            {subject.length > 0 ? (
               <Table columns={columns}>
                 {subject?.map((item) => (
                   <tr

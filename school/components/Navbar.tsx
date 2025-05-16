@@ -28,7 +28,7 @@ const Navbar = () => {
 
   if (status === 'loading') {
     return (
-      <div className='fixed inset-0 bg-black/5 cursor-not-allowed'>
+      <div className='fixed inset-0 bg-black/20 cursor-not-allowed'>
         <Loading />
       </div>
     );
