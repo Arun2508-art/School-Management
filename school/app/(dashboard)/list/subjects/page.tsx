@@ -1,5 +1,6 @@
 'use client';
 
+import EmptyText from '@/components/EmptyText';
 import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
 import Loading from '@/components/Loading';
@@ -99,9 +100,7 @@ const SubjectPage = () => {
                 ))}
               </Table>
             ) : (
-              <div className='h-[calc(100vh-141px)] w-full text-blue-400 text-xl leading-1 font-semibold flex items-center justify-center'>
-                Add New Subject
-              </div>
+              <EmptyText title='Add New Subject' />
             )}
           </div>
           {/* <Pagination count={[1, 2, 3]} /> */}

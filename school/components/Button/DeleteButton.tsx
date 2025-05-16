@@ -1,4 +1,5 @@
 import { useAppDispatch } from '@/store/hooks';
+import { deleteParent } from '@/store/Slices/ParentSlice';
 import { deleteStudent } from '@/store/Slices/StudentSlice';
 import { deleteTeacher } from '@/store/Slices/TeacherSlice';
 import { IconTrash } from '@tabler/icons-react';
@@ -16,6 +17,8 @@ const DeleteButton = ({ id, type }: DeleteButtonProps) => {
       dispatch(deleteStudent(id));
     } else if (type === 'teacher') {
       dispatch(deleteTeacher(id));
+    } else if (type === 'parent') {
+      dispatch(deleteParent(id));
     }
   };
 
