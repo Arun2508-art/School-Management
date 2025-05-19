@@ -73,7 +73,7 @@ const LoginForm = () => {
     <div>
       <div className='flex flex-col items-center gap-4 mb-4'>
         <h3 className='font-bold text-2xl text-blue'>Login to your account</h3>
-        <div className='font-normal text-sm text-blue/80'>
+        <div className='font-normal text-sm text-blue/80 hidden md:block'>
           Enter your email below to login to your account
         </div>
       </div>
@@ -103,13 +103,13 @@ const LoginForm = () => {
           {loading ? 'Logging in....' : 'Login'}
         </button>
       </form>
-      <div className='my-8 text-center relative text-sm'>
+      <div className='my-8 text-center relative text-sm hidden lg:block'>
         <div className='border-t border-gray-300'></div>
         <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-blue'>
           Or continue with
         </div>
       </div>
-      <div className='w-full mt-6'>
+      <div className='w-full mt-6 hidden lg:block'>
         <button className='w-full rounded py-2 mt-4 ring-1 ring-gray-400'>
           Login with Google
         </button>

@@ -14,7 +14,7 @@ const SignInpage = () => {
         />
       </div>
       <div className='flex flex-1 items-center justify-center'>
-        <div className='w-full max-w-md'>
+        <div className='w-full max-w-md p-4'>
           <LoginForm />
         </div>
       </div>

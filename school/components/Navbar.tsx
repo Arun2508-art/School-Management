@@ -14,7 +14,7 @@ const Navbar = () => {
   const [name, setName] = useState('');
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.auth);
+  const { user, status } = useAppSelector((state) => state.auth);
 
   const handleLogout = async () => {
     const success = await dispatch(Logout());
@@ -26,7 +26,7 @@ const Navbar = () => {
     setRole(localStorage.getItem('role') || '');
   }, []);
 
-  if (status === 'loading') {
+  if (status === 'loading' || !user) {
     return (
       <div className='fixed inset-0 bg-black/20 cursor-not-allowed'>
         <Loading />
