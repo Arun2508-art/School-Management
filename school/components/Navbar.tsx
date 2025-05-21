@@ -14,7 +14,7 @@ const Navbar = () => {
   const [name, setName] = useState('');
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { user, status } = useAppSelector((state) => state.auth);
+  const { status } = useAppSelector((state) => state.auth);
 
   const handleLogout = async () => {
     const success = await dispatch(Logout());
@@ -26,7 +26,7 @@ const Navbar = () => {
     setRole(localStorage.getItem('role') || '');
   }, []);
 
-  if (status === 'loading' || !user) {
+  if (status === 'loading') {
     return (
       <div className='fixed inset-0 bg-black/20 cursor-not-allowed'>
         <Loading />
@@ -59,7 +59,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className='text-white rounded-full relative w-7 h-7 flex items-center justify-center'>
-              <Image src='/noAvatar.png' alt='' fill />
+              <Image src='/noAvatar.png' alt='' fill sizes='100%' />
             </div>
           </div>
           {activeMenu && (
