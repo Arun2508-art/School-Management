@@ -10,7 +10,7 @@ export interface TeachersProps {
   password: string;
   phone?: string;
   classes: string;
-  subjects?: string;
+  subjects?: string[];
   teacherId: string;
   address?: string;
 }

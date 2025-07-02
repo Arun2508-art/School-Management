@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export type SubjectType = {
   _id?: string;
   subject: string;
-  teacherName: string;
+  teacherName?: string[];
 };
 
 export interface SubjectProps {

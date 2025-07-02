@@ -7,7 +7,7 @@ const TeacherSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   password: { type: String },
   phone: { type: String },
-  subjects: { type: String }, // e.g., ["Math", "Physics"]
+  subjects: { type: Array }, // e.g., ["Math", "Physics"]
   classes: { type: String }, // e.g., ["Grade 10", "Class B"]
   address: { type: String },
   teacherId: { type: String },

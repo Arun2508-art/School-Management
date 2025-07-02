@@ -3,10 +3,11 @@ import mongoose, { Schema } from 'mongoose';
 const SubjectSchema = new Schema({
   subject: {
     type: String,
-    unique: true
+    unique: true,
+    required: true
   },
   teacherName: {
-    type: String
+    type: [String]
   }
 });
 

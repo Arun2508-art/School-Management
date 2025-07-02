@@ -41,6 +41,7 @@ const Input = ({
         className={inputClass}
         value={value}
         max={max}
+        autoComplete='off'
       />
     </div>
   );

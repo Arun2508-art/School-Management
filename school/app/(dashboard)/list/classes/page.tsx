@@ -23,11 +23,6 @@ const columns = [
     className: 'hidden md:table-cell'
   },
   {
-    header: 'Grade',
-    accessor: 'grade',
-    className: 'hidden md:table-cell'
-  },
-  {
     header: 'Supervisor',
     accessor: 'supervisor',
     className: 'hidden md:table-cell'
@@ -82,11 +77,10 @@ const ClassesPage = () => {
                   key={item._id}
                   className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                 >
-                  <td className='flex items-center gap-4 p-4'>
-                    <h3 className='font-semibold'>{item.standard}</h3>
+                  <td className='flex items-center gap-4 py-4'>
+                    <h3 className='font-semibold'>{item.name}</h3>
                   </td>
                   <td className='hidden md:table-cell'>{item.capacity}</td>
-                  <td className='hidden md:table-cell'>{item.grade}</td>
                   <td className='hidden md:table-cell'>{item.supervisor}</td>
                   <td>
                     <div className='flex items-center gap-2'>

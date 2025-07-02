@@ -8,7 +8,7 @@ import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { deleteSubject, fecthSubject } from '@/store/Slices/SubjectSlice';
-import { IconEye, IconTrash } from '@tabler/icons-react';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -77,12 +77,19 @@ const SubjectPage = () => {
                     <td className='flex items-center gap-4 p-4'>
                       <h3 className='font-semibold'>{item.subject}</h3>
                     </td>
-                    <td className='hidden md:table-cell'>{item.teacherName}</td>
+                    <td className='hidden md:table-cell'>
+                      {item.teacherName &&
+                        item.teacherName.map((t) => (
+                          <span className='px-1' key={t}>
+                            {t}
+                          </span>
+                        ))}
+                    </td>
                     <td>
                       <div className='flex items-center gap-2'>
                         <Link href={`/list/teachers/${item._id}`}>
                           <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
-                            <IconEye stroke={2} width={16} height={16} />
+                            <IconEdit stroke={2} width={16} height={16} />
                           </button>
                         </Link>
 

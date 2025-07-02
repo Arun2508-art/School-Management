@@ -40,20 +40,19 @@ const Sidebar = () => {
                 <Link
                   href={item.href}
                   key={item.label}
-                  className={`flex items-center gap-3 py-2 md:px-2 rounded-md text-gray-500 hover:bg-sky-100 ${
+                  className={`flex items-center justify-center lg:justify-start gap-3 py-2 md:px-2 rounded-md text-gray-500 hover:bg-sky-100 ${
                     isActive(item.label, item.href, currentPath, role)
                       ? 'bg-blue-100'
                       : ''
                   }`}
                 >
-                  <div>
-                    <Image
-                      src={item.icon}
-                      width={20}
-                      height={20}
-                      alt={item.label}
-                    />
-                  </div>
+                  <Image
+                    src={item.icon}
+                    width={20}
+                    height={20}
+                    alt={item.label}
+                  />
+
                   <div className='hidden lg:block'>{item.label}</div>
                 </Link>
               );

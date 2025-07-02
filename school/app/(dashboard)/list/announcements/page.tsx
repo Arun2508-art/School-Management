@@ -35,7 +35,7 @@ const page = () => {
         <div className=''>
           <div className='flex gap-5 justify-between items-center'>
             <h1 className='hidden md:block text-lg font-semibold'>
-              All Classes
+              All Announcements
             </h1>
             <div className='flex items-center gap-4'>
               <div>

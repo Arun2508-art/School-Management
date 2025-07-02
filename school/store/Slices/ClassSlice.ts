@@ -3,9 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export interface StandardProps {
   _id?: string;
-  standard: string;
+  name: string;
   capacity?: number;
-  grade?: string;
   supervisor?: string;
 }
 interface StudentsState {
@@ -20,11 +19,12 @@ const initialState: StudentsState = {
 
 export const createClass = createAsyncThunk(
   'api/add/Class',
-  async ({ standard, capacity, grade, supervisor }: StandardProps) => {
+  async ({ name, capacity, supervisor }: StandardProps) => {
+    console.log('supervisor.....', supervisor);
     const response = await fetch(`${baseUrl}/api/class`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ standard, capacity, grade, supervisor })
+      body: JSON.stringify({ name, capacity, supervisor })
     });
     const data = await response.json();
     return data;

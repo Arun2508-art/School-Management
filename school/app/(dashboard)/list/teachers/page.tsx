@@ -10,7 +10,7 @@ import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchTeacher } from '@/store/Slices/TeacherSlice';
-import { IconEye } from '@tabler/icons-react';
+import { IconEdit, IconEye } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -31,20 +31,20 @@ const columns = [
     className: 'hidden md:table-cell'
   },
   {
-    header: 'Classes',
+    header: 'Supervisor Class',
     accessor: 'classes',
     className: 'hidden md:table-cell'
   },
-  {
-    header: 'Phone',
-    accessor: 'phone',
-    className: 'hidden lg:table-cell'
-  },
-  {
-    header: 'Address',
-    accessor: 'address',
-    className: 'hidden lg:table-cell'
-  },
+  // {
+  //   header: 'Phone',
+  //   accessor: 'phone',
+  //   className: 'hidden lg:table-cell'
+  // },
+  // {
+  //   header: 'Address',
+  //   accessor: 'address',
+  //   className: 'hidden lg:table-cell'
+  // },
   {
     header: 'Actions',
     accessor: 'action'
@@ -92,14 +92,14 @@ const TeacherPage = () => {
                     key={item._id}
                     className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                   >
-                    <td className='flex items-center gap-4 p-4'>
-                      {/* <Image
-                      src={item.photo}
-                      alt=''
-                      width={40}
-                      height={40}
-                      className='md:hidden xl:block w-10 h-10 rounded-full object-cover'
-                    /> */}
+                    <td className='flex items-center gap-4 py-4 px-1'>
+                      <Image
+                        src='/avatar.png'
+                        alt=''
+                        width={40}
+                        height={40}
+                        className='md:hidden lg:block w-10 h-10 rounded-full object-cover'
+                      />
                       <div className='flex flex-col'>
                         <h3 className='font-semibold'>{item.name}</h3>
                         <p className='text-xs text-gray-500'>{item?.email}</p>
@@ -108,10 +108,14 @@ const TeacherPage = () => {
                     <td className='hidden md:table-cell'>{item.teacherId}</td>
                     <td className='hidden md:table-cell'>{item?.subjects}</td>
                     <td className='hidden md:table-cell'>{item.classes}</td>
-                    <td className='hidden md:table-cell'>{item.phone}</td>
-                    <td className='hidden md:table-cell'>{item.address}</td>
+                    {/* <td className='hidden md:table-cell'>{item.phone}</td>
+                    <td className='hidden md:table-cell'>{item.address}</td> */}
                     <td>
-                      <div className='flex items-center gap-2'>
+                      <div className='flex items-center gap-1'>
+                        <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
+                          <IconEdit stroke={2} width={16} height={16} />
+                        </button>
+
                         <Link href={`/list/teachers/${item._id}`}>
                           <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
                             <IconEye stroke={2} width={16} height={16} />

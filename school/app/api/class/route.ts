@@ -4,12 +4,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { standard, capacity, grade, supervisor } = await request.json();
+    const { name, capacity, supervisor } = await request.json();
     await connectMongoDB();
     const newStandard = await Class.create({
-      standard,
+      name,
       capacity,
-      grade,
       supervisor
     });
     return NextResponse.json(

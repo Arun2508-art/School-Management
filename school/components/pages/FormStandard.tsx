@@ -1,36 +1,46 @@
 'use client';
 
 import Input from '@/components/Input';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createClass } from '@/store/Slices/ClassSlice';
+import { fetchTeacher } from '@/store/Slices/TeacherSlice';
+import { useEffect } from 'react';
+import Button from '../Button/Button';
+import Select from '../Select';
 
 const FormStandard = () => {
   const dispatch = useAppDispatch();
+  const { teachers } = useAppSelector((st) => st.teacher);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const formData = new FormData(e.currentTarget);
-      const standard = formData.get('class') as string;
-      const grade = formData.get('grade') as string;
+      const name = formData.get('class') as string;
       const supervisor = formData.get('supervisor') as string;
       const capacityStr = formData.get('capacity') as string;
 
       const capacity = parseInt(capacityStr);
-
-      const res = await dispatch(
-        createClass({ standard, grade, supervisor, capacity })
-      );
+      const res = await dispatch(createClass({ name, supervisor, capacity }));
       console.log(res.payload.status);
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    dispatch(fetchTeacher());
+  }, [dispatch]);
+
+  const optionData = teachers.map((t) => ({
+    value: t.name,
+    label: t.name
+  }));
+
   return (
     <form onSubmit={handleSubmit}>
       <div className='flex gap-8 mb-4'>
-        <Input placeholder='Class Name' label='Class Name' name='class' />
+        <Input placeholder='Name' label='Name' name='class' />
         <Input
           placeholder='Capacity'
           label='Capacity'
@@ -39,13 +49,9 @@ const FormStandard = () => {
         />
       </div>
       <div className='flex gap-8 mb-4'>
-        <Input placeholder='Grade' label='Grade' name='grade' />
-        <Input placeholder='Supervisor' label='Supervisor' name='supervisor' />
+        <Select list={optionData} name='supervisor' label='supervisor' />
       </div>
-
-      <button className='ring-1 ring-blue-600 bg-blue-600 text-white p-2 rounded-md cursor-pointer'>
-        Submit
-      </button>
+      <Button>Save</Button>
     </form>
   );
 };
