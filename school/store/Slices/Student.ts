@@ -1,15 +1,16 @@
 import { baseUrl } from '@/utills/helper';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { StandardProps } from './Class';
+import { UserType } from './User';
 
 export interface StudentsProps {
   _id?: string;
-  name: string;
+  user: string | Omit<UserType, 'password'>;
   gender: 'Male' | 'Female' | 'Other';
   dateOfBirth?: Date;
-  email: string;
-  password: string;
   phone?: string;
-  class: string;
+  class: string | Pick<StandardProps, 'name'>;
+  parent: string[];
   rollNumber: string;
   address?: string;
 }
@@ -24,15 +25,25 @@ const initialState: StudentsState = {
 };
 
 export const createStudent = createAsyncThunk(
-  'api/add/student',
-  async (value: StudentsProps) => {
-    const response = await fetch(`${baseUrl}/api/student`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(value)
-    });
-    const data = await response.json();
-    return data;
+  'student/createStudent',
+  async (value: StudentsProps, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${baseUrl}/api/student`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(value)
+      });
+
+      if (!response.ok) {
+        console.log(await response.json());
+        return rejectWithValue('Failed to create student');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 

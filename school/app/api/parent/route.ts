@@ -1,18 +1,14 @@
 import connectMongoDB from '@/lib/mongodb';
-import Parent from '@/models/parent';
+import Parent from '@/models/Parent';
 import { ParentsProps } from '@/store/Slices/ParentSlice';
-import bcrypt from 'bcryptjs';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const parent: ParentsProps = await request.json();
     await connectMongoDB();
-    console.log(parent);
-    const hashPassword = await bcrypt.hash(parent.password, 10);
-    const parentWithHashedPassword = { ...parent, password: hashPassword };
-    console.log(parentWithHashedPassword);
-    const newParent = await Parent.create(parentWithHashedPassword);
+
+    const newParent = await Parent.create(parent);
     return NextResponse.json(
       { message: 'Parent Added', newParent, status: 201 },
       { status: 201 }
@@ -25,8 +21,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   await connectMongoDB();
-  const parents = await Parent.find();
-  return NextResponse.json({ parents });
+  const parents = await Parent.find().populate('user');
+  return NextResponse.json({ parents }, { status: 201 });
 }
 
 export async function DELETE(request: NextRequest) {

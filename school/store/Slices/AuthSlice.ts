@@ -20,13 +20,13 @@ const initialState: LoginState = {
 
 // Thunk with email passed in
 export const LoginAPI = createAsyncThunk(
-  'api/login',
+  'api/auth/login',
   async (
     { email, password }: { email: string; password: string },
     { rejectWithValue }
   ) => {
     try {
-      const response = await fetch(`${baseUrl}/api/login`, {
+      const response = await fetch(`${baseUrl}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -47,10 +47,10 @@ export const LoginAPI = createAsyncThunk(
 );
 
 export const Logout = createAsyncThunk(
-  'api/logout',
+  'api/auth/logout',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${baseUrl}/api/logout`, {
+      const response = await fetch(`${baseUrl}/api/auth/logout`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -70,7 +70,7 @@ export const Logout = createAsyncThunk(
 );
 
 export const authSlice = createSlice({
-  name: 'Login',
+  name: 'Auth',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -81,10 +81,10 @@ export const authSlice = createSlice({
       })
       .addCase(LoginAPI.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload;
+        state.user = action.payload.user.name;
         state.error = '';
-        localStorage.setItem('role', action.payload.role);
-        localStorage.setItem('name', action.payload.name);
+        localStorage.setItem('role', action.payload.user.role);
+        localStorage.setItem('name', action.payload.user.name);
       })
       .addCase(LoginAPI.rejected, (state, action) => {
         state.status = 'failed';

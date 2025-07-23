@@ -1,5 +1,5 @@
 import connectMongoDB from '@/lib/mongodb';
-import Class from '@/models/classes';
+import Class from '@/models/Class';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function DELETE(request: NextRequest) {

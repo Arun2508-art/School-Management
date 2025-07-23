@@ -1,9 +1,6 @@
 import { generateToken } from '@/lib/jwt';
 import connectMongoDB from '@/lib/mongodb';
-import Admin from '@/models/admin';
-import Parent from '@/models/parent';
-import Student from '@/models/student';
-import Teacher from '@/models/teacher';
+import User from '@/models/User';
 import bcrypt from 'bcryptjs';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -27,40 +24,31 @@ export const POST = async (req: NextRequest) => {
 
     await connectMongoDB();
 
-    let user = null;
-
-    const collections = [
-      { model: Admin, role: 'admin' },
-      { model: Parent, role: 'parent' },
-      { model: Teacher, role: 'teacher' },
-      { model: Student, role: 'student' }
-    ];
-
-    for (const { model } of collections) {
-      user = await model.findOne({ email });
-      if (user) break;
-    }
+    const user = await User.findOne({ email });
 
     if (!user) {
-      return NextResponse.json({ message: 'User not found' }, { status: 401 });
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
       return NextResponse.json(
-        { message: 'Password Invalid' },
+        { message: 'Invalid Password' },
         { status: 401 }
       );
     }
 
     const token = await generateToken(user._id.toString(), user.role);
 
-    const res = NextResponse.json({
-      id: user._id,
-      role: user.role,
-      name: user.name
-    });
+    const res = NextResponse.json(
+      {
+        message: 'Login Successful',
+        token,
+        user
+      },
+      { status: 200 }
+    );
 
     res.cookies.set({
       name: 'jwt',

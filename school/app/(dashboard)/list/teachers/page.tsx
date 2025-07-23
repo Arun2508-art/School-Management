@@ -4,7 +4,6 @@ import DeleteButton from '@/components/Button/DeleteButton';
 import EmptyText from '@/components/EmptyText';
 import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
-import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
@@ -26,6 +25,11 @@ const columns = [
     className: 'hidden md:table-cell'
   },
   {
+    header: 'Gender',
+    accessor: 'gender',
+    className: 'hidden md:table-cell'
+  },
+  {
     header: 'Subjects',
     accessor: 'subjects',
     className: 'hidden md:table-cell'
@@ -35,16 +39,6 @@ const columns = [
     accessor: 'classes',
     className: 'hidden md:table-cell'
   },
-  // {
-  //   header: 'Phone',
-  //   accessor: 'phone',
-  //   className: 'hidden lg:table-cell'
-  // },
-  // {
-  //   header: 'Address',
-  //   accessor: 'address',
-  //   className: 'hidden lg:table-cell'
-  // },
   {
     header: 'Actions',
     accessor: 'action'
@@ -60,7 +54,7 @@ const TeacherPage = () => {
   }, [dispatch]);
 
   if (status === 'loading') {
-    return <Loading />;
+    // return <Loading />;
   }
 
   return (
@@ -101,15 +95,24 @@ const TeacherPage = () => {
                         className='md:hidden lg:block w-10 h-10 rounded-full object-cover'
                       />
                       <div className='flex flex-col'>
-                        <h3 className='font-semibold'>{item.name}</h3>
-                        <p className='text-xs text-gray-500'>{item?.email}</p>
+                        <h3 className='font-semibold'>
+                          {typeof item.user !== 'string' && item.user.name}
+                        </h3>
+                        <p className='text-xs text-gray-500'>
+                          {typeof item.user === 'object' &&
+                            'email' in item.user &&
+                            item.user.email}
+                        </p>
                       </div>
                     </td>
                     <td className='hidden md:table-cell'>{item.teacherId}</td>
-                    <td className='hidden md:table-cell'>{item?.subjects}</td>
-                    <td className='hidden md:table-cell'>{item.classes}</td>
-                    {/* <td className='hidden md:table-cell'>{item.phone}</td>
-                    <td className='hidden md:table-cell'>{item.address}</td> */}
+                    <td className='hidden md:table-cell'>{item.gender}</td>
+                    <td className='hidden md:table-cell'>
+                      {item.subjects?.length ? item.subjects.join(', ') : '-'}
+                    </td>
+                    <td className='hidden md:table-cell'>
+                      {item.classes?.length ? item.classes.join(', ') : '-'}
+                    </td>
                     <td>
                       <div className='flex items-center gap-1'>
                         <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>

@@ -1,4 +1,5 @@
 'use client';
+import EmptyText from '@/components/EmptyText';
 import FormModal from '@/components/FormModal';
 import FormSearch from '@/components/FormSearch';
 import Loading from '@/components/Loading';
@@ -6,7 +7,7 @@ import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { deleteClass, fetchClass } from '@/store/Slices/ClassSlice';
+import { deleteClass, fetchClass } from '@/store/Slices/Class';
 import { IconEye, IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,8 +15,8 @@ import { useEffect } from 'react';
 
 const columns = [
   {
-    header: 'Classes',
-    accessor: 'classes'
+    header: 'Standard',
+    accessor: 'standard'
   },
   {
     header: 'Capacity',
@@ -54,9 +55,7 @@ const ClassesPage = () => {
       <Paper>
         <div className=''>
           <div className='flex gap-5 justify-between items-center'>
-            <h1 className='hidden md:block text-lg font-semibold'>
-              All Classes
-            </h1>
+            <h1 className='hidden md:block text-lg font-semibold'>Classes</h1>
             <div className='flex items-center gap-4'>
               <div>
                 <FormSearch />
@@ -70,40 +69,44 @@ const ClassesPage = () => {
               <FormModal type='Class' />
             </div>
           </div>
-          <div className='mt-8'>
-            <Table columns={columns}>
-              {standard?.map((item) => (
-                <tr
-                  key={item._id}
-                  className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
-                >
-                  <td className='flex items-center gap-4 py-4'>
-                    <h3 className='font-semibold'>{item.name}</h3>
-                  </td>
-                  <td className='hidden md:table-cell'>{item.capacity}</td>
-                  <td className='hidden md:table-cell'>{item.supervisor}</td>
-                  <td>
-                    <div className='flex items-center gap-2'>
-                      <Link href={`/list/teachers/${item._id}`}>
-                        <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
-                          <IconEye stroke={2} width={16} height={16} />
-                        </button>
-                      </Link>
+          {standard.length > 0 ? (
+            <div className='mt-8'>
+              <Table columns={columns}>
+                {standard?.map((item) => (
+                  <tr
+                    key={item._id}
+                    className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
+                  >
+                    <td className='flex items-center gap-4 py-4'>
+                      <h3 className='font-semibold'>{item.name}</h3>
+                    </td>
+                    <td className='hidden md:table-cell'>{item.capacity}</td>
+                    <td className='hidden md:table-cell'>{item.supervisor}</td>
+                    <td>
+                      <div className='flex items-center gap-2'>
+                        <Link href={`/list/teachers/${item._id}`}>
+                          <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
+                            <IconEye stroke={2} width={16} height={16} />
+                          </button>
+                        </Link>
 
-                      <button
-                        className='w-7 h-7 flex items-center justify-center rounded-full text-red-600 hover:bg-Purple cursor-pointer'
-                        onClick={() => {
-                          handleDelete(item._id!);
-                        }}
-                      >
-                        <IconTrash stroke={2} width={16} height={16} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </Table>
-          </div>
+                        <button
+                          className='w-7 h-7 flex items-center justify-center rounded-full text-red-600 hover:bg-Purple cursor-pointer'
+                          onClick={() => {
+                            handleDelete(item._id!);
+                          }}
+                        >
+                          <IconTrash stroke={2} width={16} height={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </Table>
+            </div>
+          ) : (
+            <EmptyText title='No Classes to display' />
+          )}
           <Pagination count={[1, 2, 3]} />
         </div>
       </Paper>

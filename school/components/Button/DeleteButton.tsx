@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@/store/hooks';
 import { deleteParent } from '@/store/Slices/ParentSlice';
-import { deleteStudent } from '@/store/Slices/StudentSlice';
+import { deleteStudent } from '@/store/Slices/Student';
 import { deleteTeacher } from '@/store/Slices/TeacherSlice';
 import { IconTrash } from '@tabler/icons-react';
 

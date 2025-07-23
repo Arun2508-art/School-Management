@@ -20,29 +20,12 @@ const LoginForm = () => {
       const formData = new FormData(e.currentTarget);
       const email = formData.get('email') as string;
       const password = formData.get('password') as string;
-      const success = await dispatch(LoginAPI({ email, password }));
-      if (LoginAPI.fulfilled.match(success)) {
-        const user = success.payload;
-
-        switch (user.role) {
-          case 'admin':
-            router.push('/admin');
-            break;
-          case 'teacher':
-            router.push('/teacher');
-            break;
-          case 'student':
-            router.push('/student');
-            break;
-          case 'parent':
-            router.push('/parent');
-            break;
-          default:
-            console.warn('Unknown role:', user.role);
-            break;
-        }
+      const result = await dispatch(LoginAPI({ email, password }));
+      if (LoginAPI.fulfilled.match(result)) {
+        const user = result.payload.user;
+        router.push(`/${user.role.toLowerCase()}`);
       } else {
-        console.error('Login failed:', success);
+        console.error('Login failed:', result.payload);
       }
     } catch (error) {
       console.log(error);
@@ -50,20 +33,6 @@ const LoginForm = () => {
       setLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   if (status === 'succeeded' && user?.role) {
-  //     if (user.role === 'admin') {
-  //       router.push('/admin');
-  //     } else if (user.role === 'teacher') {
-  //       router.push('/teacher');
-  //     } else if (user.role === 'student') {
-  //       router.push('/student');
-  //     } else if (user.role === 'parent') {
-  //       router.push('/parent');
-  //     }
-  //   }
-  // }, [status, user?.role, router]);
 
   if (user) {
     return <Loading />;

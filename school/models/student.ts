@@ -1,19 +1,16 @@
 import mongoose, { Schema } from 'mongoose';
 
 const StudentSchema = new Schema({
-  name: { type: String, required: true },
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  rollNumber: { type: String, unique: true, required: true },
+  class: { type: Schema.Types.ObjectId, ref: 'Class' },
+  parent: [{ type: Schema.Types.ObjectId, ref: 'Parent' }],
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
   dateOfBirth: { type: Date },
-  email: { type: String, unique: true, lowercase: true },
-  password: { type: String },
   phone: { type: String },
-  class: { type: String },
-  rollNumber: { type: String, unique: true },
   address: { type: String },
-  role: { type: String, default: 'student' },
-  parent: { type: Schema.Types.ObjectId, ref: 'Parent' },
   enrolledDate: { type: Date, default: Date.now },
-  isActive: { type: Boolean, default: true }
+  role: { type: String, default: 'STUDENT', enum: ['STUDENT'] }
 });
 
 const Student =

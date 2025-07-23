@@ -2,7 +2,7 @@
 
 import Input from '@/components/Input';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { createClass } from '@/store/Slices/ClassSlice';
+import { createClass } from '@/store/Slices/Class';
 import { fetchTeacher } from '@/store/Slices/TeacherSlice';
 import { useEffect } from 'react';
 import Button from '../Button/Button';
@@ -21,8 +21,7 @@ const FormStandard = () => {
       const capacityStr = formData.get('capacity') as string;
 
       const capacity = parseInt(capacityStr);
-      const res = await dispatch(createClass({ name, supervisor, capacity }));
-      console.log(res.payload.status);
+      await dispatch(createClass({ name, supervisor, capacity }));
     } catch (error) {
       console.log(error);
     }
@@ -32,24 +31,28 @@ const FormStandard = () => {
     dispatch(fetchTeacher());
   }, [dispatch]);
 
-  const optionData = teachers.map((t) => ({
-    value: t.name,
-    label: t.name
-  }));
+  const optionData = teachers.map((t) => {
+    if (typeof t.user === 'object') {
+      return {
+        value: t.user.name,
+        label: t.user.name
+      };
+    }
+  });
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='flex gap-8 mb-4'>
+      <div className='mb-4'>
         <Input placeholder='Name' label='Name' name='class' />
+      </div>
+      <div className='flex gap-4 flex-col sm:flex-row mb-4'>
+        <Select list={optionData} name='supervisor' label='supervisor' />
         <Input
           placeholder='Capacity'
           label='Capacity'
           name='capacity'
           type='number'
         />
-      </div>
-      <div className='flex gap-8 mb-4'>
-        <Select list={optionData} name='supervisor' label='supervisor' />
       </div>
       <Button>Save</Button>
     </form>

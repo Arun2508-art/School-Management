@@ -3,8 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export type SubjectType = {
   _id?: string;
-  subject: string;
-  teacherName?: string[];
+  name: string;
+  teacher?: string[];
 };
 
 export interface SubjectProps {
@@ -18,15 +18,26 @@ const initialState: SubjectProps = {
 };
 
 export const createSubject = createAsyncThunk(
-  'api/create/subject',
-  async ({ subject, teacherName }: SubjectType) => {
-    const res = await fetch(`${baseUrl}/api/subject`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subject, teacherName })
-    });
-    const data = res.json();
-    return data;
+  'subject/createSubject',
+  async ({ name, teacher }: SubjectType, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/subject`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, teacher })
+      });
+
+      if (!res.ok) {
+        console.log(await res.json());
+        return rejectWithValue('Failed to create subject');
+      }
+
+      const newSubject = res.json();
+      return newSubject;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue('Network error');
+    }
   }
 );
 
@@ -65,8 +76,7 @@ export const SubjectSlice = createSlice({
       })
       .addCase(createSubject.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action.payload);
-        state.subject.push(action.payload.data);
+        state.subject.push(action.payload.newSubject);
       })
       .addCase(createSubject.rejected, (state) => {
         state.status = 'failed';

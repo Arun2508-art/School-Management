@@ -8,7 +8,7 @@ import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchStudent } from '@/store/Slices/StudentSlice';
+import { fetchStudent } from '@/store/Slices/Student';
 import { IconEye } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -91,24 +91,30 @@ const StudentPage = () => {
                     key={item._id}
                     className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                   >
-                    <td className='flex items-center gap-4 p-4'>
-                      {/* <Image
-                      src={item.photo}
-                      alt=''
-                      width={40}
-                      height={40}
-                      className='md:hidden xl:block w-10 h-10 rounded-full object-cover'
-                    /> */}
+                    <td className='flex items-center gap-4 px-1 py-4'>
+                      <Image
+                        src='/avatar.png'
+                        alt=''
+                        width={40}
+                        height={40}
+                        className='md:hidden lg:block w-10 h-10 rounded-full object-cover'
+                      />
                       <div className='flex flex-col'>
-                        <h3 className='font-semibold'>{item.name}</h3>
-                        <p className='text-xs text-gray-500'>{item?.email}</p>
+                        <h3 className='font-semibold'>
+                          {typeof item.user === 'object' && item.user.name}
+                        </h3>
+                        <p className='text-xs text-gray-500'>
+                          {typeof item.user === 'object' && item.user.email}
+                        </p>
                       </div>
                     </td>
                     <td className='hidden md:table-cell'>{item.rollNumber}</td>
-                    <td className='hidden md:table-cell'>{item.class}</td>
+                    <td className='hidden md:table-cell'>
+                      {typeof item.class === 'object' ? item.class.name : '-'}
+                    </td>
                     <td className='hidden md:table-cell'>{item.gender}</td>
-                    <td className='hidden md:table-cell'>{item.phone}</td>
-                    <td className='hidden md:table-cell'>{item.address}</td>
+                    <td className='hidden lg:table-cell'>{item.phone}</td>
+                    <td className='hidden lg:table-cell'>{item.address}</td>
                     <td>
                       <div className='flex items-center gap-2'>
                         <Link href={`/list/teachers/${item._id}`}>

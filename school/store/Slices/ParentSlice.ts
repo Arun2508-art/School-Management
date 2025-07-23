@@ -1,12 +1,11 @@
 import { baseUrl } from '@/utills/helper';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { UserType } from './User';
 
 export interface ParentsProps {
   _id?: string;
-  name: string;
+  user: string | UserType;
   dateOfBirth?: Date;
-  email: string;
-  password: string;
   phone?: string;
   address?: string;
 }
@@ -21,7 +20,7 @@ const initialState: ParentsState = {
 };
 
 export const createParent = createAsyncThunk(
-  'api/add/parent',
+  'parent/createParent',
   async (value: ParentsProps) => {
     const response = await fetch(`${baseUrl}/api/parent`, {
       method: 'POST',
@@ -87,7 +86,6 @@ export const ParentSlice = createSlice({
       })
       .addCase(createParent.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action.payload);
         state.parents.push(action.payload.newParent);
       })
       .addCase(createParent.rejected, (state) => {

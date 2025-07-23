@@ -1,5 +1,5 @@
 import connectMongoDB from '@/lib/mongodb';
-import Admin from '@/models/admin';
+import Admin from '@/models/Admin';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const DELETE = async (request: NextRequest) => {

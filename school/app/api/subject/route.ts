@@ -1,14 +1,14 @@
 import connectMongoDB from '@/lib/mongodb';
-import Subject from '@/models/subject';
+import Subject from '@/models/Subject';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const POST = async (request: NextRequest) => {
   try {
-    const { subject, teacherName } = await request.json();
+    const { name, teacher } = await request.json();
     await connectMongoDB();
-    const data = await Subject.create({ subject, teacherName });
+    const newSubject = await Subject.create({ name, teacher });
     return NextResponse.json(
-      { data, message: 'Subject Added Successfully' },
+      { newSubject, message: 'Subject Added Successfully' },
       { status: 200 }
     );
   } catch (error) {

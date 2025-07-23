@@ -16,7 +16,10 @@ const FormModal = ({ type }: FormModalProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     <>
@@ -28,10 +31,10 @@ const FormModal = ({ type }: FormModalProps) => {
       </div>
       {isModalOpen && (
         <div className='fixed inset-0 bg-black/50'>
-          <div className='bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 z-50 shadow-2xl rounded-md'>
+          <div className='bg-white w-full sm:w-[524px] h-full sm:h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 z-50 shadow-2xl rounded-md overflow-y-auto'>
             <div className='flex flex-col gap-3'>
               <div className='flex justify-between items-center'>
-                <h1 className='text-xl font-semibold text-blue-400 capitalize'>
+                <h1 className='text-xl font-semibold text-blue-500 capitalize'>
                   Add {type}
                 </h1>
                 <div

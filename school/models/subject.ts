@@ -1,14 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
 
 const SubjectSchema = new Schema({
-  subject: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  teacherName: {
-    type: [String]
-  }
+  name: { type: String, required: true }, // e.g., "Mathematics"
+  teacher: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Teacher'
+    }
+  ]
 });
 
 const Subject =

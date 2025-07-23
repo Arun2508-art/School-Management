@@ -1,7 +1,6 @@
 import connectMongoDB from '@/lib/mongodb';
-import Student from '@/models/student';
-import { StudentsProps } from '@/store/Slices/StudentSlice';
-import bcrypt from 'bcryptjs';
+import Student from '@/models/Student';
+import { StudentsProps } from '@/store/Slices/Student';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -9,10 +8,7 @@ export async function POST(request: NextRequest) {
     const student: StudentsProps = await request.json();
     await connectMongoDB();
 
-    const hashPassword = await bcrypt.hash(student.password, 10);
-    const studentWithHashedPassword = { ...student, password: hashPassword };
-
-    const newStudent = await Student.create(studentWithHashedPassword);
+    const newStudent = await Student.create(student);
     return NextResponse.json(
       { message: 'Student Added', newStudent, status: 201 },
       { status: 201 }
@@ -23,11 +19,26 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
-  await connectMongoDB();
-  const students = await Student.find();
-  return NextResponse.json({ students });
-}
+export const GET = async () => {
+  try {
+    await connectMongoDB();
+    const students = await Student.find()
+      .populate({ path: 'user', select: 'name email' })
+      .populate({
+        path: 'class',
+        select: 'name'
+      });
+    return NextResponse.json(
+      { students, message: 'Successfully fecthed' },
+      {
+        status: 200
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ message: 'server error' }, { status: 500 });
+  }
+};
 
 export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get('id');

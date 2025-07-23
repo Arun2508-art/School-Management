@@ -1,19 +1,16 @@
 import mongoose, { Schema } from 'mongoose';
 
 const TeacherSchema = new Schema({
-  name: { type: String, required: true },
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  teacherId: { type: String, unique: true },
+  subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Subject' }],
+  classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }],
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
   dateOfBirth: { type: Date },
-  email: { type: String, unique: true, lowercase: true },
-  password: { type: String },
   phone: { type: String },
-  subjects: { type: Array }, // e.g., ["Math", "Physics"]
-  classes: { type: String }, // e.g., ["Grade 10", "Class B"]
   address: { type: String },
-  teacherId: { type: String },
   hireDate: { type: Date, default: Date.now },
-  isActive: { type: Boolean, default: true },
-  role: { type: String, default: 'teacher' }
+  role: { type: String, default: 'TEACHER', enum: ['TEACHER'] }
 });
 
 const Teacher =

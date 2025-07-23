@@ -1,19 +1,19 @@
 import { baseUrl } from '@/utills/helper';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { UserType } from './User';
 
 export interface TeachersProps {
   _id?: string;
-  name: string;
+  user: UserType | string;
   gender: 'Male' | 'Female' | 'Other';
   dateOfBirth?: Date;
-  email: string;
-  password: string;
   phone?: string;
-  classes: string;
+  classes?: string[];
   subjects?: string[];
   teacherId: string;
   address?: string;
 }
+
 interface TeachersState {
   teachers: TeachersProps[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -27,7 +27,6 @@ const initialState: TeachersState = {
 export const createTeacher = createAsyncThunk(
   'api/add/teacher',
   async (value: TeachersProps) => {
-    console.log(value);
     const response = await fetch(`${baseUrl}/api/teacher`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -92,7 +91,6 @@ export const TeacherSlice = createSlice({
       })
       .addCase(createTeacher.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action.payload);
         state.teachers.push(action.payload.newTeacher);
       })
       .addCase(createTeacher.rejected, (state) => {
@@ -103,7 +101,6 @@ export const TeacherSlice = createSlice({
       })
       .addCase(deleteTeacher.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action.payload);
         state.teachers = state.teachers.filter(
           (item) => item._id !== action.payload.deletedTeacher._id
         );

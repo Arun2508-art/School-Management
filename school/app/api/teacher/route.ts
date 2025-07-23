@@ -1,5 +1,5 @@
 import connectMongoDB from '@/lib/mongodb';
-import Teacher from '@/models/teacher';
+import Teacher from '@/models/Teacher';
 import { NextRequest, NextResponse } from 'next/server';
 
 const corsHeaders = {
@@ -22,10 +22,9 @@ export const POST = async (request: NextRequest) => {
     await connectMongoDB();
     const newTeacher = await Teacher.create(value);
     return NextResponse.json(
-      { newTeacher, message: 'Teacher Added Successfully', status: 201 },
+      { newTeacher, message: 'Teacher Added Successfully' },
       {
-        status: 201,
-        headers: corsHeaders
+        status: 201
       }
     );
   } catch (error) {
@@ -36,13 +35,11 @@ export const POST = async (request: NextRequest) => {
 export const GET = async () => {
   try {
     await connectMongoDB();
-    const data = await Teacher.find();
+    const data = await Teacher.find().populate('user');
     return NextResponse.json(
       { data, message: 'Successfully fecth' },
       {
-        status: 200,
-
-        headers: corsHeaders
+        status: 200
       }
     );
   } catch (error) {

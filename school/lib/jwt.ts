@@ -18,7 +18,6 @@ export const generateToken = async (userId: string, role: string) => {
 export const verifyToken = async (token: string) => {
   try {
     const { payload } = await jwtVerify(token, secretKey);
-    // console.log('Decoded Token:', payload);
     return payload;
   } catch (error) {
     console.log('Token is invalid', error);

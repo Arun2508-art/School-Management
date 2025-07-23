@@ -18,9 +18,8 @@ const initialState: StudentsState = {
 };
 
 export const createClass = createAsyncThunk(
-  'api/add/Class',
+  'Class/createClass',
   async ({ name, capacity, supervisor }: StandardProps) => {
-    console.log('supervisor.....', supervisor);
     const response = await fetch(`${baseUrl}/api/class`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -95,7 +94,6 @@ export const ClassSlice = createSlice({
       })
       .addCase(deleteClass.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action.payload);
         state.standard = state.standard.filter(
           (item) => item._id !== action.payload.data._id
         );

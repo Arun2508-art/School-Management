@@ -7,6 +7,7 @@ interface InputProps {
   placeholder?: string;
   id?: string;
   className?: string;
+  containerClass?: string;
   value?: string;
   max?: string;
 }
@@ -18,16 +19,22 @@ const Input = ({
   placeholder,
   id,
   className,
+  containerClass,
   value,
   max
 }: InputProps) => {
   const inputClass = classNames(
-    'ring-1 ring-blue-200 p-2 rounded-md focus:outline-blue-300',
+    'ring-1 ring-blue-200 p-2 rounded-sm focus:outline-blue-300',
     className,
     {}
   );
+  const containerClasses = classNames(
+    'flex flex-col gap-2',
+    containerClass,
+    {}
+  );
   return (
-    <div className='flex flex-col gap-2'>
+    <div className={containerClasses}>
       {label && (
         <label htmlFor={id} className='text-sm font-semibold'>
           {label}

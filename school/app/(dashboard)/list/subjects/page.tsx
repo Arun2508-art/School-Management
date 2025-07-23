@@ -7,7 +7,7 @@ import Loading from '@/components/Loading';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { deleteSubject, fecthSubject } from '@/store/Slices/SubjectSlice';
+import { deleteSubject, fecthSubject } from '@/store/Slices/Subject';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -74,12 +74,12 @@ const SubjectPage = () => {
                     key={item._id}
                     className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                   >
-                    <td className='flex items-center gap-4 p-4'>
-                      <h3 className='font-semibold'>{item.subject}</h3>
+                    <td className='flex items-center gap-4 px-1 py-4'>
+                      <h3 className='font-semibold'>{item.name}</h3>
                     </td>
                     <td className='hidden md:table-cell'>
-                      {item.teacherName &&
-                        item.teacherName.map((t) => (
+                      {item.teacher &&
+                        item.teacher.map((t) => (
                           <span className='px-1' key={t}>
                             {t}
                           </span>
