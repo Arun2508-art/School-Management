@@ -1,7 +1,10 @@
 import connectMongoDB from '@/lib/mongodb';
+import Class from '@/models/Class';
 import Student from '@/models/Student';
+import User from '@/models/User';
 import { StudentsProps } from '@/store/Slices/Student';
 import { NextRequest, NextResponse } from 'next/server';
+void Class;
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,6 +31,7 @@ export const GET = async () => {
         path: 'class',
         select: 'name'
       });
+
     return NextResponse.json(
       { students, message: 'Successfully fecthed' },
       {
@@ -43,6 +47,17 @@ export const GET = async () => {
 export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get('id');
   await connectMongoDB();
+
+  const student = await Student.findById(id);
+
+  if (!student) {
+    return NextResponse.json({ message: 'Student Not Found' }, { status: 404 });
+  }
+
+  if (student.user) {
+    await User.findByIdAndDelete(student.user);
+  }
+
   const deletedStudent = await Student.findByIdAndDelete(id);
   return NextResponse.json(
     { message: 'Student deleted', deletedStudent },

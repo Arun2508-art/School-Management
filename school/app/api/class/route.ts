@@ -1,5 +1,8 @@
 import connectMongoDB from '@/lib/mongodb';
 import Class from '@/models/Class';
+import Student from '@/models/Student';
+import Teacher from '@/models/Teacher';
+import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -35,12 +38,38 @@ export async function GET() {
 export async function DELETE(request: NextRequest) {
   try {
     const id = request.nextUrl.searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Missing id parameter' },
+        { status: 400 }
+      );
+    }
+
     await connectMongoDB();
+
     const data = await Class.findByIdAndDelete(id);
 
     if (!data) {
-      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+      return NextResponse.json(
+        { message: 'Class not found ' },
+        { status: 404 }
+      );
     }
+
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    // Update all students assigned to this class and remove the reference
+    await Student.updateMany(
+      { class: objectId },
+      { $unset: { class: '' } } // sets `class` field to undefined / removes it
+    );
+
+    await Teacher.updateMany(
+      { classes: objectId },
+      { $pull: { classes: objectId } }
+    );
+
     return NextResponse.json(
       { message: 'Standard deleted', data },
       { status: 200 }

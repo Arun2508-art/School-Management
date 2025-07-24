@@ -1,5 +1,7 @@
 import { baseUrl } from '@/utills/helper';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { StandardProps } from './Class';
+import { SubjectType } from './Subject';
 import { UserType } from './User';
 
 export interface TeachersProps {
@@ -8,8 +10,8 @@ export interface TeachersProps {
   gender: 'Male' | 'Female' | 'Other';
   dateOfBirth?: Date;
   phone?: string;
-  classes?: string[];
-  subjects?: string[];
+  classes?: string[] | StandardProps[];
+  subjects?: string[] | SubjectType[];
   teacherId: string;
   address?: string;
 }
@@ -38,7 +40,7 @@ export const createTeacher = createAsyncThunk(
 );
 
 export const deleteTeacher = createAsyncThunk(
-  'api/delete/teacher',
+  'teacher/deleteTeacher',
   async (id: string) => {
     const response = await fetch(`${baseUrl}/api/teacher?id=${id}`, {
       method: 'DELETE'

@@ -1,20 +1,9 @@
 import connectMongoDB from '@/lib/mongodb';
+import Class from '@/models/Class';
+import Subject from '@/models/Subject';
 import Teacher from '@/models/Teacher';
+import User from '@/models/User';
 import { NextRequest, NextResponse } from 'next/server';
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Access-Control-Max-Age': '86400'
-};
-
-export const OPTIONS = async () => {
-  return new NextResponse(null, {
-    status: 204,
-    headers: corsHeaders
-  });
-};
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -35,7 +24,12 @@ export const POST = async (request: NextRequest) => {
 export const GET = async () => {
   try {
     await connectMongoDB();
-    const data = await Teacher.find().populate('user');
+    console.log(Class, Subject);
+    const data = await Teacher.find()
+      .populate('user')
+      .populate('classes')
+      .populate('subjects');
+
     return NextResponse.json(
       { data, message: 'Successfully fecth' },
       {
@@ -55,16 +49,25 @@ export const DELETE = async (req: NextRequest) => {
       return NextResponse.json({ message: 'ID should not be NULL' });
     }
     await connectMongoDB();
-    const deletedTeacher = await Teacher.findByIdAndDelete(id);
-    if (!deletedTeacher) {
+
+    const teacher = await Teacher.findById(id);
+
+    if (!teacher) {
       return NextResponse.json(
         { message: 'Teacher Not Found' },
-        { status: 404, headers: corsHeaders }
+        { status: 404 }
       );
     }
+
+    if (teacher.user) {
+      await User.findByIdAndDelete(teacher.user);
+    }
+
+    const deletedTeacher = await Teacher.findByIdAndDelete(id);
+
     return NextResponse.json(
-      { message: 'Deleted Teacher Sucessfully', deletedTeacher },
-      { status: 200, headers: corsHeaders }
+      { message: 'Teacher Deleted Sucessfully', deletedTeacher },
+      { status: 200 }
     );
   } catch (error) {
     console.log(error);

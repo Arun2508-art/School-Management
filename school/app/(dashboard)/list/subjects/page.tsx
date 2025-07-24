@@ -72,24 +72,25 @@ const SubjectPage = () => {
                 {subject?.map((item) => (
                   <tr
                     key={item._id}
-                    className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
+                    className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight/30 even:hover:bg-YellowLight/30'
                   >
-                    <td className='flex items-center gap-4 px-1 py-4'>
+                    <td className='px-1 py-4'>
                       <h3 className='font-semibold'>{item.name}</h3>
                     </td>
                     <td className='hidden md:table-cell'>
-                      {item.teacher &&
-                        item.teacher.map((t) => (
-                          <span className='px-1' key={t}>
-                            {t}
-                          </span>
-                        ))}
+                      {Array.isArray(item.teacher) && item.teacher?.length > 0
+                        ? item.teacher.map((t) => (
+                            <span className='px-1' key={t}>
+                              {t}
+                            </span>
+                          ))
+                        : '-'}
                     </td>
                     <td>
-                      <div className='flex items-center gap-2'>
+                      <div className='flex items-center justify-center gap-2'>
                         <Link href={`/list/teachers/${item._id}`}>
                           <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
-                            <IconEdit stroke={2} width={16} height={16} />
+                            <IconEdit stroke={1.5} width={20} height={20} />
                           </button>
                         </Link>
 
@@ -99,7 +100,7 @@ const SubjectPage = () => {
                             handleDelete(item._id!);
                           }}
                         >
-                          <IconTrash stroke={2} width={16} height={16} />
+                          <IconTrash stroke={1.5} width={20} height={20} />
                         </button>
                       </div>
                     </td>

@@ -1,5 +1,6 @@
 import connectMongoDB from '@/lib/mongodb';
 import Parent from '@/models/Parent';
+import User from '@/models/User';
 import { ParentsProps } from '@/store/Slices/ParentSlice';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -28,6 +29,17 @@ export async function GET() {
 export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get('id');
   await connectMongoDB();
+
+  const parent = await Parent.findById(id);
+
+  if (!parent) {
+    return NextResponse.json({ message: 'Teacher Not Found' }, { status: 404 });
+  }
+
+  if (parent.user) {
+    await User.findByIdAndDelete(parent.user);
+  }
+
   const deletedParent = await Parent.findByIdAndDelete(id);
   return NextResponse.json(
     { message: 'Parent deleted', deletedParent },

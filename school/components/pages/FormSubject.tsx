@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createSubject } from '@/store/Slices/Subject';
-import { fetchTeacher } from '@/store/Slices/TeacherSlice';
+import { fetchTeacher } from '@/store/Slices/Teacher';
 import React, { useEffect } from 'react';
 import Input from '../Input';
 import Select from '../Select';

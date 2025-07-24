@@ -1,5 +1,7 @@
 import connectMongoDB from '@/lib/mongodb';
 import Subject from '@/models/Subject';
+import Teacher from '@/models/Teacher';
+import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const POST = async (request: NextRequest) => {
@@ -35,17 +37,29 @@ export const GET = async () => {
 export const DELETE = async (req: NextRequest) => {
   try {
     const id = req.nextUrl.searchParams.get('id');
+
     if (!id) {
       return NextResponse.json({ message: 'ID should not be NULL' });
     }
+
     await connectMongoDB();
+
     const deleteSubject = await Subject.findByIdAndDelete(id);
+
     if (!deleteSubject) {
       return NextResponse.json(
         { message: 'Subject Not Found' },
         { status: 404 }
       );
     }
+
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    await Teacher.updateMany(
+      { subjects: objectId },
+      { $pull: { subjects: objectId } }
+    );
+
     return NextResponse.json(
       { message: 'Deleted Subject Sucessfully', deleteSubject },
       { status: 200 }

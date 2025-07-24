@@ -3,7 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 const TeacherSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   teacherId: { type: String, unique: true },
-  subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Subject' }],
+  subjects: [{ type: Schema.Types.ObjectId, ref: 'Subject' }],
   classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }],
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
   dateOfBirth: { type: Date },

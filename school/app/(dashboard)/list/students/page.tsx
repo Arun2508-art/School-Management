@@ -17,7 +17,8 @@ import { useEffect } from 'react';
 const columns = [
   {
     header: 'Info',
-    accessor: 'info'
+    accessor: 'info',
+    className: 'text-left'
   },
   {
     header: 'Student ID',
@@ -62,6 +63,8 @@ const StudentPage = () => {
     return <Loading />;
   }
 
+  console.log(students);
+
   return (
     <div className='mx-4'>
       <Paper>
@@ -91,7 +94,7 @@ const StudentPage = () => {
                     key={item._id}
                     className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                   >
-                    <td className='flex items-center gap-4 px-1 py-4'>
+                    <td className='flex items-center gap-4 px-1 py-4 text-left'>
                       <Image
                         src='/avatar.png'
                         alt=''
@@ -108,13 +111,21 @@ const StudentPage = () => {
                         </p>
                       </div>
                     </td>
-                    <td className='hidden md:table-cell'>{item.rollNumber}</td>
-                    <td className='hidden md:table-cell'>
-                      {typeof item.class === 'object' ? item.class.name : '-'}
+                    <td className='hidden md:table-cell px-1'>
+                      {item.rollNumber}
                     </td>
-                    <td className='hidden md:table-cell'>{item.gender}</td>
-                    <td className='hidden lg:table-cell'>{item.phone}</td>
-                    <td className='hidden lg:table-cell'>{item.address}</td>
+                    <td className='hidden md:table-cell px-1'>
+                      {typeof item.class === 'object'
+                        ? item.class === null
+                          ? '-'
+                          : item.class.name
+                        : '-'}
+                    </td>
+                    <td className='hidden md:table-cell px-1'>{item.gender}</td>
+                    <td className='hidden lg:table-cell px-1'>{item.phone}</td>
+                    <td className='hidden lg:table-cell px-1'>
+                      {item.address}
+                    </td>
                     <td>
                       <div className='flex items-center gap-2'>
                         <Link href={`/list/teachers/${item._id}`}>

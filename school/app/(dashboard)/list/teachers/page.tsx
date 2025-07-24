@@ -8,7 +8,7 @@ import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchTeacher } from '@/store/Slices/TeacherSlice';
+import { fetchTeacher } from '@/store/Slices/Teacher';
 import { IconEdit, IconEye } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -57,6 +57,8 @@ const TeacherPage = () => {
     // return <Loading />;
   }
 
+  console.log(teachers);
+
   return (
     <div className='mx-4'>
       <Paper>
@@ -86,7 +88,7 @@ const TeacherPage = () => {
                     key={item._id}
                     className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
                   >
-                    <td className='flex items-center gap-4 py-4 px-1'>
+                    <td className='flex items-center gap-4 py-4 px-1 text-left'>
                       <Image
                         src='/avatar.png'
                         alt=''
@@ -105,16 +107,33 @@ const TeacherPage = () => {
                         </p>
                       </div>
                     </td>
-                    <td className='hidden md:table-cell'>{item.teacherId}</td>
-                    <td className='hidden md:table-cell'>{item.gender}</td>
-                    <td className='hidden md:table-cell'>
-                      {item.subjects?.length ? item.subjects.join(', ') : '-'}
+                    <td className='hidden md:table-cell py-4 px-1'>
+                      {item.teacherId}
                     </td>
-                    <td className='hidden md:table-cell'>
-                      {item.classes?.length ? item.classes.join(', ') : '-'}
+                    <td className='hidden md:table-cell py-4 px-1'>
+                      {item.gender}
                     </td>
+                    <td className='hidden md:table-cell py-4 px-1'>
+                      {Array.isArray(item.subjects) && item.subjects.length > 0
+                        ? item.subjects
+                            ?.map((subj) =>
+                              typeof subj === 'string' ? subj : subj.name
+                            )
+                            .join(', ')
+                        : '-'}
+                    </td>
+                    <td className='hidden md:table-cell py-4 px-1'>
+                      {Array.isArray(item.classes) && item.classes.length > 0
+                        ? item.classes
+                            ?.map((cls) =>
+                              typeof cls === 'string' ? cls : cls.name
+                            )
+                            .join(', ')
+                        : '-'}
+                    </td>
+
                     <td>
-                      <div className='flex items-center gap-1'>
+                      <div className='flex items-center justify-center gap-1'>
                         <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
                           <IconEdit stroke={2} width={16} height={16} />
                         </button>

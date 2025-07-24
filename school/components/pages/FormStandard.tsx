@@ -3,7 +3,7 @@
 import Input from '@/components/Input';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createClass } from '@/store/Slices/Class';
-import { fetchTeacher } from '@/store/Slices/TeacherSlice';
+import { fetchTeacher } from '@/store/Slices/Teacher';
 import { useEffect } from 'react';
 import Button from '../Button/Button';
 import Select from '../Select';

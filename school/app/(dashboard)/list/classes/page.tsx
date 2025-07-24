@@ -7,16 +7,17 @@ import Pagination from '@/components/Pagination';
 import Paper from '@/components/Paper';
 import Table from '@/components/Table';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { deleteClass, fetchClass } from '@/store/Slices/Class';
+import { deleteClass, fetchClass, StandardProps } from '@/store/Slices/Class';
 import { IconEye, IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const columns = [
   {
     header: 'Standard',
-    accessor: 'standard'
+    accessor: 'standard',
+    sort: true
   },
   {
     header: 'Capacity',
@@ -37,6 +38,7 @@ const columns = [
 const ClassesPage = () => {
   const dispacth = useAppDispatch();
   const { standard, status } = useAppSelector((state) => state.class);
+  const [sortedData, setSortedData] = useState<StandardProps[]>(standard);
 
   const handleDelete = (id: string) => {
     dispacth(deleteClass(id));
@@ -46,9 +48,25 @@ const ClassesPage = () => {
     dispacth(fetchClass());
   }, [dispacth]);
 
+  useEffect(() => {
+    setSortedData(standard);
+  }, [standard]);
+
   if (status === 'loading') {
     return <Loading />;
   }
+
+  const handleSort = (key: 'asc' | 'desc' | 'default') => {
+    if (key === 'asc') {
+      const sorted = [...standard].sort((a, b) => a.name.localeCompare(b.name));
+      setSortedData(sorted);
+    } else if (key === 'desc') {
+      const sorted = [...standard].sort((a, b) => b.name.localeCompare(a.name));
+      setSortedData(sorted);
+    } else {
+      setSortedData(standard);
+    }
+  };
 
   return (
     <div className='mx-4'>
@@ -69,24 +87,28 @@ const ClassesPage = () => {
               <FormModal type='Class' />
             </div>
           </div>
-          {standard.length > 0 ? (
+          {sortedData.length > 0 ? (
             <div className='mt-8'>
-              <Table columns={columns}>
-                {standard?.map((item) => (
+              <Table columns={columns} onClick={handleSort}>
+                {sortedData?.map((item) => (
                   <tr
                     key={item._id}
-                    className='border-b border-gray-200 even:bg-slate-50 text-sm odd:hover:bg-PurpleLight even:hover:bg-YellowLight'
+                    className='border-b border-gray-200 even:bg-slate-50 text-base odd:hover:bg-PurpleLight/30 even:hover:bg-YellowLight/30'
                   >
-                    <td className='flex items-center gap-4 py-4'>
+                    <td className='py-4'>
                       <h3 className='font-semibold'>{item.name}</h3>
                     </td>
-                    <td className='hidden md:table-cell'>{item.capacity}</td>
-                    <td className='hidden md:table-cell'>{item.supervisor}</td>
-                    <td>
-                      <div className='flex items-center gap-2'>
+                    <td className='hidden md:table-cell py-4'>
+                      {item.capacity ? item.capacity : '-'}
+                    </td>
+                    <td className='hidden md:table-cell py-4'>
+                      {item.supervisor ? item.supervisor : '-'}
+                    </td>
+                    <td className='py-4'>
+                      <div className='flex items-center justify-center gap-2'>
                         <Link href={`/list/teachers/${item._id}`}>
                           <button className='w-7 h-7 flex items-center justify-center rounded-full text-blue-600 hover:bg-Sky'>
-                            <IconEye stroke={2} width={16} height={16} />
+                            <IconEye stroke={1.5} width={20} height={20} />
                           </button>
                         </Link>
 
@@ -96,7 +118,7 @@ const ClassesPage = () => {
                             handleDelete(item._id!);
                           }}
                         >
-                          <IconTrash stroke={2} width={16} height={16} />
+                          <IconTrash stroke={1.5} width={20} height={20} />
                         </button>
                       </div>
                     </td>

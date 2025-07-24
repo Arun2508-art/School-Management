@@ -4,7 +4,7 @@ import ClassReducer from './Slices/Class';
 import ParentReducer from './Slices/ParentSlice';
 import StudentReducer from './Slices/Student';
 import SubjectReducer from './Slices/Subject';
-import TeacherReducer from './Slices/TeacherSlice';
+import TeacherReducer from './Slices/Teacher';
 import UserReducer from './Slices/User';
 
 export const store = configureStore({

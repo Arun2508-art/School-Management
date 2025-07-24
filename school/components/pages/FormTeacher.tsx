@@ -3,7 +3,7 @@ import Input from '@/components/Input';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchClass } from '@/store/Slices/Class';
 import { fecthSubject } from '@/store/Slices/Subject';
-import { createTeacher, TeachersProps } from '@/store/Slices/TeacherSlice';
+import { createTeacher, TeachersProps } from '@/store/Slices/Teacher';
 import { createUser, UserType } from '@/store/Slices/User';
 import { useEffect, useState } from 'react';
 import Select from '../Select';
@@ -70,12 +70,12 @@ const FormTeacher = ({ onSuccess }: FormTeacherProps) => {
   };
 
   const options = subject.map((item) => ({
-    value: item.name,
+    value: item._id || '',
     label: item.name
   }));
 
   const classOptionList = standard.map((c) => ({
-    value: c.name,
+    value: c._id || '',
     label: c.name
   }));
 
